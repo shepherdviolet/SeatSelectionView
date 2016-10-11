@@ -3,7 +3,6 @@ package sviolet.seatselectionview.view;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.graphics.RectF;
 
 import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
 
@@ -21,8 +20,9 @@ public class SeatTable {
     private int columnNum;
     private float seatWidth;//(单座位)宽度
     private float seatHeight;//(单座位)高度
+    private int padding;
 
-    public SeatTable(int row, int column, float seatWidth, float seatHeight){
+    public SeatTable(int row, int column, float seatWidth, float seatHeight, int padding){
         if (row < 0){
             throw new RuntimeException("row must >= 0");
         }
@@ -35,11 +35,15 @@ public class SeatTable {
         if (seatHeight <= 0){
             throw new RuntimeException("seat height must > 0");
         }
+        if (padding < 0){
+            throw new RuntimeException("padding must >= 0");
+        }
         this.seats = new Seat[row][column];
         this.rowNum = row;
         this.columnNum = column;
         this.seatWidth = seatWidth;
         this.seatHeight = seatHeight;
+        this.padding = padding;
     }
 
     public void setSeat(int row, int column, Seat seat){
@@ -77,11 +81,11 @@ public class SeatTable {
     }
 
     public float getMatrixWidth(){
-        return getColumnNum() * seatWidth;
+        return (getColumnNum() + 2 * padding) * seatWidth;
     }
 
     public float getMatrixHeight(){
-        return getRowNum() * seatHeight;
+        return (getRowNum() + 2 * padding) * seatHeight;
     }
 
     /****************************************************************
@@ -106,20 +110,20 @@ public class SeatTable {
         canvas.clipRect(dstRect);
 
         int minRow = (int) Math.floor(srcRect.top / seatHeight);
-        minRow = minRow > 0 ? minRow : 0;
+        minRow = minRow > padding ? minRow : padding;
 
         int maxRow = (int) Math.ceil(srcRect.bottom / seatHeight);
-        maxRow = maxRow < rowNum ? maxRow : rowNum;
+        maxRow = maxRow < rowNum + padding ? maxRow : rowNum + padding;
 
         int minColumn = (int) Math.floor(srcRect.left / seatWidth);
-        minColumn = minColumn > 0 ? minColumn : 0;
+        minColumn = minColumn > padding ? minColumn : padding;
 
         int maxColumn = (int) Math.ceil(srcRect.right / seatWidth);
-        maxColumn = maxColumn < columnNum ? maxColumn : columnNum;
+        maxColumn = maxColumn < columnNum + padding ? maxColumn : columnNum + padding;
 
         for (int r = minRow ; r < maxRow ; r++){
             for (int c = minColumn ; c < maxColumn ; c++){
-                Seat seat = getSeat(r, c);
+                Seat seat = getSeat(r - padding, c - padding);
                 if (seat == null){
                     continue;
                 }

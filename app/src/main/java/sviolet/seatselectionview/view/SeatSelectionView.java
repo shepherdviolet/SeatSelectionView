@@ -121,7 +121,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
 
     public void setData(){
 
-        seatTable = new SeatTable(10, 20, 150, 150);
+        seatTable = new SeatTable(10, 20, 150, 150, 1);
         output.reset(seatTable.getMatrixWidth(), seatTable.getMatrixHeight(), getWidth(), getHeight(), SimpleRectangleOutput.AUTO_MAGNIFICATION_LIMIT, SimpleRectangleOutput.InitScaleType.FIT_TOP);
 
 
