@@ -3,6 +3,7 @@ package sviolet.seatselectionview.view;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
 
@@ -94,7 +95,7 @@ public class SeatTable {
 
     private Rect srcRect = new Rect();
     private Rect dstRect = new Rect();
-    private Rect drawDstRect = new Rect();
+    private RectF drawDstRect = new RectF();
 
     private SimpleRectangleOutput.Point leftTopPoint = new SimpleRectangleOutput.Point();
     private SimpleRectangleOutput.Point rightBottomPoint = new SimpleRectangleOutput.Point();
@@ -121,6 +122,16 @@ public class SeatTable {
         int maxColumn = (int) Math.ceil(srcRect.right / seatWidth);
         maxColumn = maxColumn < columnNum + padding ? maxColumn : columnNum + padding;
 
+        //利用单座位左上角和右下角两个点, 映射到显示矩形上, 计算单座位在显示矩形上的长和宽
+        float x = minColumn * seatWidth;
+        float y = minRow * seatHeight;
+        output.mappingActualPointToDisplay(x, y, leftTopPoint);
+        output.mappingActualPointToDisplay(x + seatWidth, y + seatHeight, rightBottomPoint);
+        float displayX = (float) leftTopPoint.getX();
+        float displayY = (float) leftTopPoint.getY();
+        float seatDisplayWidth = (float) (rightBottomPoint.getX() - leftTopPoint.getX());
+        float seatDisplayHeight = (float) (rightBottomPoint.getY() - leftTopPoint.getY());
+
         for (int r = minRow ; r < maxRow ; r++){
             for (int c = minColumn ; c < maxColumn ; c++){
                 Seat seat = getSeat(r - padding, c - padding);
@@ -135,16 +146,12 @@ public class SeatTable {
                     continue;
                 }
 
-                float x = c * seatWidth;
-                float y = r * seatHeight;
-                output.mappingActualPointToDisplay(x, y, leftTopPoint);
-                output.mappingActualPointToDisplay(x + seat.getType().getColumn() * seatWidth, y + seat.getType().getRow() * seatHeight, rightBottomPoint);
-
-                drawDstRect.left = (int) leftTopPoint.getX();
-                drawDstRect.top = (int) leftTopPoint.getY();
-                drawDstRect.right = (int) rightBottomPoint.getX();
-                drawDstRect.bottom = (int) rightBottomPoint.getY();
+                drawDstRect.left = displayX + (c - minColumn) * seatDisplayWidth;
+                drawDstRect.top = displayY + (r - minRow) * seatDisplayHeight;
+                drawDstRect.right = drawDstRect.left + seat.getType().getColumn() * seatDisplayWidth;
+                drawDstRect.bottom = drawDstRect.top + seat.getType().getRow() * seatDisplayHeight;
                 canvas.drawBitmap(bitmap, imagePool.getImageRect(seat.getType(), seat.getState()), drawDstRect, null);
+
             }
         }
 
