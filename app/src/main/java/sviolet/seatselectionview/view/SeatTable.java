@@ -57,6 +57,7 @@ public class SeatTable {
         if (column >= columnNum){
             return;
         }
+        seat.setRowColumn(row, column);
         seats[row][column] = seat;
     }
 
@@ -157,6 +158,16 @@ public class SeatTable {
 
         canvas.restore();
 
+    }
+
+    /****************************************************************
+     * click
+     */
+
+    public Seat getSeatByCoordinate(float x, float y){
+        int row = (int) Math.floor((y - seatHeight * padding) / seatHeight);
+        int column = (int) Math.floor((x - seatWidth * padding) / seatWidth);
+        return getSeat(row, column);
     }
 
 }

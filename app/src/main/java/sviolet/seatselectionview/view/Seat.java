@@ -13,6 +13,9 @@ public class Seat {
     private SeatState state;//座位状态
     private Seat host;//多人座位场合有效, 占位座位持有实体座位
 
+    private int row;
+    private int column;
+
     public Seat(SeatType type, SeatState state, Seat host){
         this.type = type;
         this.state = state;
@@ -33,5 +36,23 @@ public class Seat {
 
     public Seat getHost() {
         return host;
+    }
+
+    void setRowColumn(int row, int column){
+        this.row = row;
+        this.column = column;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    @Override
+    public String toString() {
+        return "[Seat]type:" + String.valueOf(type) + " state:" + state;
     }
 }
