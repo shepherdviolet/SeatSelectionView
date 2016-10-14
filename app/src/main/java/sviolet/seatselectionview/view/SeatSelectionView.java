@@ -86,7 +86,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                     seat = seat.getHost();
                 }
                 if(seat == null || seat.getType() == SeatType.MULTI_SEAT_PLACEHOLDER){
-                    logger.e("illegal seatTable data, the host of placeholder is null or another placeholder");
+                    logger.e("[SeatSelectionView] illegal seatTable data, the host of placeholder is null or another placeholder, host:" + seat);
                     callbackInvalidAreaClick();
                     return;
                 }

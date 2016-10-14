@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
+import sviolet.turquoise.utilx.tlogger.TLogger;
 
 /**
  * <p>多人座位以左上角的位子为作为实体, 绘图时, 仅绘制实体座位, 并根据实际作为占的长宽绘制, 占位类型的座位(MULTI_SEAT_PLACEHOLDER)
@@ -15,6 +16,8 @@ import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
  */
 
 public class SeatTable {
+
+    private TLogger logger = TLogger.get(this, SeatSelectionView.class.getSimpleName());
 
     private Seat[][] seats;
     private int rowNum;
@@ -135,20 +138,28 @@ public class SeatTable {
 
         for (int r = minRow ; r < maxRow ; r++){
             for (int c = minColumn ; c < maxColumn ; c++){
-                Seat seat = getSeat(r - padding, c - padding);
+                int _r = r;
+                int _c = c;
+                Seat seat = getSeat(_r - padding, _c - padding);
                 if (seat == null){
                     continue;
                 }
                 if (seat.getType() == SeatType.MULTI_SEAT_PLACEHOLDER){
-                    continue;
+                    seat = seat.getHost();
+                    if(seat == null || seat.getType() == SeatType.MULTI_SEAT_PLACEHOLDER){
+                        logger.e("[SeatTable] illegal seatTable data, the host of placeholder is null or another placeholder, host:" + seat);
+                        continue;
+                    }
+                    _r = seat.getRow() + padding;
+                    _c = seat.getColumn() + padding;
                 }
                 Bitmap bitmap = imagePool.getImage(seat.getType(), seat.getState());
                 if (bitmap == null || bitmap.isRecycled()){
                     continue;
                 }
 
-                drawDstRect.left = displayX + (c - minColumn) * seatDisplayWidth;
-                drawDstRect.top = displayY + (r - minRow) * seatDisplayHeight;
+                drawDstRect.left = displayX + (_c - minColumn) * seatDisplayWidth;
+                drawDstRect.top = displayY + (_r - minRow) * seatDisplayHeight;
                 drawDstRect.right = drawDstRect.left + seat.getType().getColumn() * seatDisplayWidth;
                 drawDstRect.bottom = drawDstRect.top + seat.getType().getRow() * seatDisplayHeight;
                 canvas.drawBitmap(bitmap, imagePool.getImageRect(seat.getType(), seat.getState()), drawDstRect, null);

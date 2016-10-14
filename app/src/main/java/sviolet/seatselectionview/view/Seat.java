@@ -53,6 +53,6 @@ public class Seat {
 
     @Override
     public String toString() {
-        return "[Seat]type:" + String.valueOf(type) + " state:" + state;
+        return "[Seat]type:" + String.valueOf(type) + " state:" + state + " row:" + row + " column:" + column;
     }
 }
