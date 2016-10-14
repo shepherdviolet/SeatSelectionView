@@ -6,11 +6,11 @@ package sviolet.seatselectionview.view;
 
 public interface OnSeatSelectionStateChangeListener {
 
-    boolean onSeatSelect(int row, int column);
+    boolean onSeatSelect(int row, int column, Seat seat);
 
-    boolean onSeatDeselect(int row, int column);
+    boolean onSeatDeselect(int row, int column, Seat seat);
 
-    void onUnavailableSeatSelect(int row, int column);
+    void onUnavailableSeatSelect(int row, int column, Seat seat);
 
     void onInvalidAreaClick();
 

@@ -29,6 +29,8 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
     private SeatTable seatTable;
     //座位图片池
     private SeatImagePool imagePool;
+    //背景色
+    private int backgroundColor = 0xFFF7F7F7;
 
     //选座监听器
     private OnSeatSelectionStateChangeListener listener;
@@ -90,17 +92,17 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                 }
                 switch (seat.getState()){
                     case AVAILABLE:
-                        if (callbackSeatSelect(seat.getRow(), seat.getColumn())){
+                        if (callbackSeatSelect(seat.getRow(), seat.getColumn(), seat)){
                             seat.setState(SeatState.SELECTED);
                         }
                         break;
                     case SELECTED:
-                        if (callbackSeatDeselect(seat.getRow(), seat.getColumn())){
+                        if (callbackSeatDeselect(seat.getRow(), seat.getColumn(), seat)){
                             seat.setState(SeatState.AVAILABLE);
                         }
                         break;
                     case UNAVAILABLE:
-                        callbackUnavailableSeatSelect(seat.getRow(), seat.getColumn());
+                        callbackUnavailableSeatSelect(seat.getRow(), seat.getColumn(), seat);
                         break;
                     default:
                         callbackInvalidAreaClick();
@@ -117,25 +119,25 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
 
     }
 
-    private boolean callbackSeatSelect(int row, int column){
+    private boolean callbackSeatSelect(int row, int column, Seat seat){
         if (listener == null){
             return true;
         }
-        return listener.onSeatSelect(row, column);
+        return listener.onSeatSelect(row, column, seat);
     }
 
-    private boolean callbackSeatDeselect(int row, int column){
+    private boolean callbackSeatDeselect(int row, int column, Seat seat){
         if (listener == null){
             return true;
         }
-        return listener.onSeatDeselect(row, column);
+        return listener.onSeatDeselect(row, column, seat);
     }
 
-    private void callbackUnavailableSeatSelect(int row, int column){
+    private void callbackUnavailableSeatSelect(int row, int column, Seat seat){
         if (listener == null){
             return;
         }
-        listener.onUnavailableSeatSelect(row, column);
+        listener.onUnavailableSeatSelect(row, column, seat);
     }
 
     private void callbackInvalidAreaClick(){
@@ -155,6 +157,8 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
 
     @Override
     protected void onDraw(Canvas canvas) {
+
+        canvas.drawColor(backgroundColor);
 
         if (seatTable != null){
             if (imagePool == null){
@@ -178,6 +182,10 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
 
     public void setOnSeatSelectionStateChangeListener(OnSeatSelectionStateChangeListener listener){
         this.listener = listener;
+    }
+
+    public void setBackground(int backgroundColor){
+        this.backgroundColor = backgroundColor;
     }
 
     public void setData(SeatTable seatTable){
