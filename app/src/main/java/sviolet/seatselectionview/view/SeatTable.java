@@ -101,6 +101,10 @@ public class SeatTable {
         return seatHeight;
     }
 
+    public int getPadding() {
+        return padding;
+    }
+
     /****************************************************************
      * draw
      */

@@ -32,6 +32,9 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
     //背景色
     private int backgroundColor = 0xFFF7F7F7;
 
+    //座位行标识
+    private RowBar rowBar;
+
     //选座监听器
     private OnSeatSelectionStateChangeListener listener;
 
@@ -169,6 +172,11 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
             //绘制座位
             seatTable.draw(canvas, output, imagePool);
 
+            //绘制行标识
+            if (rowBar != null){
+                rowBar.draw(canvas, output, seatTable);
+            }
+
             //必须:继续刷新
             if (output.isActive())
                 postInvalidate();
@@ -186,6 +194,10 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
 
     public void setBackground(int backgroundColor){
         this.backgroundColor = backgroundColor;
+    }
+
+    public void setRowBar(RowBar rowBar){
+        this.rowBar = rowBar;
     }
 
     public void setData(SeatTable seatTable){

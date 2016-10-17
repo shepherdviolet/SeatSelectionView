@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Message;
 
 import sviolet.seatselectionview.view.OnSeatSelectionStateChangeListener;
+import sviolet.seatselectionview.view.RowBarImpl;
 import sviolet.seatselectionview.view.Seat;
 import sviolet.seatselectionview.view.SeatImagePool;
 import sviolet.seatselectionview.view.SeatSelectionView;
@@ -16,6 +17,7 @@ import sviolet.turquoise.enhance.app.TAppCompatActivity;
 import sviolet.turquoise.enhance.app.annotation.inject.ResourceId;
 import sviolet.turquoise.enhance.common.WeakHandler;
 import sviolet.turquoise.util.common.BitmapUtils;
+import sviolet.turquoise.util.droid.MeasureUtils;
 
 @ResourceId(R.layout.activity_main)
 public class MainActivity extends TAppCompatActivity {
@@ -60,7 +62,7 @@ public class MainActivity extends TAppCompatActivity {
 
     private void initData(){
 
-        SeatTable seatTable = new SeatTable(10, 20, 150, 150, 1);
+        SeatTable seatTable = new SeatTable(10, 20, 120, 120, 2);
 
         for (int row = 0 ; row < 9 ; row++){
             for (int column = 0 ; column < 20 ; column++){
@@ -197,6 +199,7 @@ public class MainActivity extends TAppCompatActivity {
 
         seatSelectionView.setImagePool(imagePool);
         seatSelectionView.setData(seatTable);
+        seatSelectionView.setRowBar(new RowBarImpl(0x80000000, 0xFFFFFFFF, MeasureUtils.dp2px(getApplicationContext(), 16), 10, 50));
 
         seatSelectionView.setOnSeatSelectionStateChangeListener(new OnSeatSelectionStateChangeListener() {
             @Override
