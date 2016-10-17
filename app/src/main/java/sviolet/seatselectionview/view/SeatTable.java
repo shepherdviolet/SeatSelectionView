@@ -93,6 +93,14 @@ public class SeatTable {
         return (getRowNum() + 2 * padding) * seatHeight;
     }
 
+    public float getSeatWidth() {
+        return seatWidth;
+    }
+
+    public float getSeatHeight() {
+        return seatHeight;
+    }
+
     /****************************************************************
      * draw
      */
