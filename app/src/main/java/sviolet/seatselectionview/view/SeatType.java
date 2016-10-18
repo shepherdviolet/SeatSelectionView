@@ -4,6 +4,8 @@ package sviolet.seatselectionview.view;
  * <p>多人座位以左上角的位子为作为实体, 绘图时, 仅绘制实体座位, 并根据实际作为占的长宽绘制, 占位类型的座位(MULTI_SEAT_PLACEHOLDER)
  * 不进行绘制. 点击时, 若点击到占位类型的座位, 则视为点击到实体座位, 占位类型的座位会持有实体座位(host).</p>
  *
+ * <p>例如情侣座:左边的座位为实体座位, 右边的座位为占位类型的座位(MULTI_SEAT_PLACEHOLDER), 两个加起来表示一个情侣座.</p>
+ *
  * Created by S.Violet on 2016/10/8.
  */
 
