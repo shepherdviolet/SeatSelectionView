@@ -62,7 +62,7 @@ public class MainActivity extends TAppCompatActivity {
 
     private void initData(){
 
-        SeatTable seatTable = new SeatTable(10, 20, 120, 120, 2);
+        SeatTable seatTable = new SeatTable(10, 20, MeasureUtils.dp2px(getApplicationContext(), 40), MeasureUtils.dp2px(getApplicationContext(), 40), 2);
 
         for (int row = 0 ; row < 9 ; row++){
             for (int column = 0 ; column < 20 ; column++){
@@ -199,7 +199,7 @@ public class MainActivity extends TAppCompatActivity {
 
         seatSelectionView.setImagePool(imagePool);
         seatSelectionView.setData(seatTable);
-        seatSelectionView.setRowBar(new RowBarImpl(0x80000000, 0xFFFFFFFF, MeasureUtils.dp2px(getApplicationContext(), 16), 10, 50));
+        seatSelectionView.setRowBar(new RowBarImpl(0x80000000, 0xFFFFFFFF, MeasureUtils.dp2px(getApplicationContext(), 16), 10, MeasureUtils.dp2px(getApplicationContext(), 20)));
 
         seatSelectionView.setOnSeatSelectionStateChangeListener(new OnSeatSelectionStateChangeListener() {
             @Override
