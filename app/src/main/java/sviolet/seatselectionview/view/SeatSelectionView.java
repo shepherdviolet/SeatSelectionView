@@ -36,7 +36,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
     private RowBar rowBar;
 
     //选座监听器
-    private OnSeatSelectionStateChangeListener listener;
+    private SeatSelectionListener listener;
 
     public SeatSelectionView(Context context) {
         super(context);
@@ -188,7 +188,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
         this.imagePool = imagePool;
     }
 
-    public void setOnSeatSelectionStateChangeListener(OnSeatSelectionStateChangeListener listener){
+    public void setSeatSelectionListener(SeatSelectionListener listener){
         this.listener = listener;
     }
 

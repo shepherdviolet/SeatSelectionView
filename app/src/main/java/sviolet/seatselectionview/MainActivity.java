@@ -5,7 +5,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Message;
 
-import sviolet.seatselectionview.view.OnSeatSelectionStateChangeListener;
+import sviolet.seatselectionview.view.SeatSelectionListener;
 import sviolet.seatselectionview.view.RowBarImpl;
 import sviolet.seatselectionview.view.Seat;
 import sviolet.seatselectionview.view.SeatImagePool;
@@ -201,7 +201,7 @@ public class MainActivity extends TAppCompatActivity {
         seatSelectionView.setData(seatTable);
         seatSelectionView.setRowBar(new RowBarImpl(0x80000000, 0xFFFFFFFF, MeasureUtils.dp2px(getApplicationContext(), 16), 10, MeasureUtils.dp2px(getApplicationContext(), 20)));
 
-        seatSelectionView.setOnSeatSelectionStateChangeListener(new OnSeatSelectionStateChangeListener() {
+        seatSelectionView.setSeatSelectionListener(new SeatSelectionListener() {
             @Override
             public boolean onSeatSelect(int row, int column, Seat seat) {
                 int seatNum = 0;

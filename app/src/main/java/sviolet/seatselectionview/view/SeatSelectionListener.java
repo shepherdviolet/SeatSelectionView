@@ -4,7 +4,7 @@ package sviolet.seatselectionview.view;
  * Created by S.Violet on 2016/10/12.
  */
 
-public interface OnSeatSelectionStateChangeListener {
+public interface SeatSelectionListener {
 
     /**
      * 选中座位时回调
