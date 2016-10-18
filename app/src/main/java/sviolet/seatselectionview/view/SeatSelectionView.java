@@ -2,10 +2,13 @@ package sviolet.seatselectionview.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.os.Looper;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import sviolet.turquoise.enhance.common.WeakHandler;
 import sviolet.turquoise.ui.util.ViewCommonUtils;
 import sviolet.turquoise.uix.viewgesturectrl.ViewGestureControllerImpl;
 import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
@@ -36,6 +39,11 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
     private RowBar rowBar;
     //屏幕标识
     private ScreenBar screenBar;
+    //概览图
+    private OutlineMap outlineMap;
+
+    //概览图在滑动停止后的显示延迟
+    private long outlineDelay = 500;//TODO 允许配置
 
     //选座监听器
     private SeatSelectionListener listener;
@@ -184,6 +192,17 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                 screenBar.draw(canvas, output, seatTable);
             }
 
+            //绘制概览图
+            if (outlineMap != null){
+                if (output.isActive()){
+                    outlineMap.setVisible(true);
+                } else if (outlineMap.isVisible()){
+                    handler.removeMessages(MyHandler.HANDLER_SET_OUTLINE_MAP_INVISIBLE);
+                    handler.sendEmptyMessageDelayed(MyHandler.HANDLER_SET_OUTLINE_MAP_INVISIBLE, outlineDelay);
+                }
+                outlineMap.draw(canvas, output, seatTable);
+            }
+
             //必须:继续刷新
             if (output.isActive())
                 postInvalidate();
@@ -211,6 +230,10 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
         this.screenBar = screenBar;
     }
 
+    public void setOutlineMap(OutlineMap outlineMap) {
+        this.outlineMap = outlineMap;
+    }
+
     public void setData(SeatTable seatTable){
         if (seatTable == null){
             return;
@@ -223,6 +246,40 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
             postInvalidate();
         }
 
+    }
+
+    /***************************************************************************************8
+     * handler
+     */
+
+    private MyHandler handler = new MyHandler(Looper.getMainLooper(), this);
+
+    private static class MyHandler extends WeakHandler<SeatSelectionView>{
+
+        private static final int HANDLER_SET_OUTLINE_MAP_INVISIBLE = 1;
+
+        public MyHandler(Looper looper, SeatSelectionView host) {
+            super(looper, host);
+        }
+
+        @Override
+        protected void handleMessageWithHost(Message message, SeatSelectionView seatSelectionView) {
+            switch (message.what){
+                case HANDLER_SET_OUTLINE_MAP_INVISIBLE:
+                    seatSelectionView.setOutlineVisible(false);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+
+    private void setOutlineVisible(boolean visible){
+        if (outlineMap != null){
+            outlineMap.setVisible(visible);
+            postInvalidate();
+        }
     }
 
 
