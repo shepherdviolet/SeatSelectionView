@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Message;
 
+import sviolet.seatselectionview.view.ScreenBarImpl;
 import sviolet.seatselectionview.view.SeatSelectionListener;
 import sviolet.seatselectionview.view.RowBarImpl;
 import sviolet.seatselectionview.view.Seat;
@@ -199,7 +200,8 @@ public class MainActivity extends TAppCompatActivity {
 
         seatSelectionView.setImagePool(imagePool);
         seatSelectionView.setData(seatTable);
-        seatSelectionView.setRowBar(new RowBarImpl(0x80000000, 0xFFFFFFFF, MeasureUtils.dp2px(getApplicationContext(), 16), 10, MeasureUtils.dp2px(getApplicationContext(), 20)));
+        seatSelectionView.setRowBar(new RowBarImpl(0x80000000, 0xFFF0F0F0, MeasureUtils.dp2px(getApplicationContext(), 16), 10, MeasureUtils.dp2px(getApplicationContext(), 20)));
+        seatSelectionView.setScreenBar(new ScreenBarImpl(0xFFD0D0D0, 0xFFFFFFFF, MeasureUtils.dp2px(getApplicationContext(), 22), 0.5f, 0.02f, "大屏幕啊啊啊啊", MeasureUtils.dp2px(getApplicationContext(), 16)));
 
         seatSelectionView.setSeatSelectionListener(new SeatSelectionListener() {
             @Override

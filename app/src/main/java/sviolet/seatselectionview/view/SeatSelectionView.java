@@ -34,6 +34,8 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
 
     //座位行标识
     private RowBar rowBar;
+    //屏幕标识
+    private ScreenBar screenBar;
 
     //选座监听器
     private SeatSelectionListener listener;
@@ -177,6 +179,11 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                 rowBar.draw(canvas, output, seatTable);
             }
 
+            //绘制屏幕
+            if (screenBar != null){
+                screenBar.draw(canvas, output, seatTable);
+            }
+
             //必须:继续刷新
             if (output.isActive())
                 postInvalidate();
@@ -198,6 +205,10 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
 
     public void setRowBar(RowBar rowBar){
         this.rowBar = rowBar;
+    }
+
+    public void setScreenBar(ScreenBar screenBar){
+        this.screenBar = screenBar;
     }
 
     public void setData(SeatTable seatTable){

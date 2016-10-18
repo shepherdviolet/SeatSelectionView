@@ -48,13 +48,16 @@ public class RowBarImpl implements RowBar {
     @Override
     public void draw(Canvas canvas, SimpleRectangleOutput output, SeatTable seatTable) {
 
+        //通过将座位矩形的点映射到显示矩形, 来获得绘制坐标和高度
         output.mappingActualPointToDisplay(0, 0, topPoint);
         output.mappingActualPointToDisplay(0, seatTable.getMatrixHeight(), bottomPoint);
 
         int rowNum = seatTable.getRowNum();
         int padding = seatTable.getPadding();
+        //显示矩形中一个座位的高度
         float displaySeatHeight = (float) ((bottomPoint.getY() - topPoint.getY()) / (rowNum + padding * 2));
 
+        //背景矩形
         backgroundRect.left = leftPadding;
         backgroundRect.right = barWidth + leftPadding;
         backgroundRect.top = (float) (topPoint.getY() + padding * displaySeatHeight - textHeight / 4);
@@ -63,6 +66,7 @@ public class RowBarImpl implements RowBar {
         paint.setColor(backgroundColor);
         canvas.drawRoundRect(backgroundRect, barWidth / 2, barWidth / 2, paint);//第二个参数是x半径，第三个参数是y半径
 
+        //绘制行号
         paint.setColor(textColor);
         for (int i = 0 ; i < rowNum ; i++){
 
