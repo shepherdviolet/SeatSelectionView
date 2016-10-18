@@ -203,7 +203,7 @@ public class MainActivity extends TAppCompatActivity {
         seatSelectionView.setData(seatTable);
         seatSelectionView.setRowBar(new RowBarImpl(0x80000000, 0xFFF0F0F0, MeasureUtils.dp2px(getApplicationContext(), 16), 10, MeasureUtils.dp2px(getApplicationContext(), 20)));
         seatSelectionView.setScreenBar(new ScreenBarImpl(0xFFD0D0D0, 0xFFFFFFFF, MeasureUtils.dp2px(getApplicationContext(), 22), 0.5f, 0.02f, "大屏幕啊啊啊啊", MeasureUtils.dp2px(getApplicationContext(), 16)));
-        seatSelectionView.setOutlineMap(new OutlineMapImpl(MeasureUtils.getScreenWidth(getApplicationContext()) / 3, 0x80000000, 0xFFFFFFFF, 0xFFFF0000, 0xFF00FF00));
+        seatSelectionView.setOutlineMap(new OutlineMapImpl(MeasureUtils.getScreenWidth(getApplicationContext()) / 3, 0x80000000, 0xFFFFFFFF, 0xFFFF0000, 0xFF00FF00, 0xE0FF0000, MeasureUtils.dp2px(getApplicationContext(), 1)));
 
         seatSelectionView.setSeatSelectionListener(new SeatSelectionListener() {
             @Override

@@ -43,7 +43,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
     private OutlineMap outlineMap;
 
     //概览图在滑动停止后的显示延迟
-    private long outlineDelay = 500;//TODO 允许配置
+    private long outlineDelay = 500;
 
     //选座监听器
     private SeatSelectionListener listener;
@@ -179,6 +179,11 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                 return;
             }
 
+            if (seatTable.getMatrixWidth() <= 0 || seatTable.getMatrixHeight() <= 0){
+                logger.w("matrixWidth/matrixHeight of seatTable <= 0");
+                return;
+            }
+
             //绘制座位
             seatTable.draw(canvas, output, imagePool);
 
@@ -246,6 +251,10 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
             postInvalidate();
         }
 
+    }
+
+    public void setOutlineDelay(long outlineDelay) {
+        this.outlineDelay = outlineDelay;
     }
 
     /***************************************************************************************8

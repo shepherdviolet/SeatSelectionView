@@ -3,6 +3,7 @@ package sviolet.seatselectionview.view;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
 
@@ -18,6 +19,8 @@ public class OutlineMapImpl implements OutlineMap {
     private int availableColor;
     private int unavailableColor;
     private int selectedColor;
+    private int areaColor;
+    private float areaStrokeWidth;
 
     private boolean visible = false;
 
@@ -28,16 +31,20 @@ public class OutlineMapImpl implements OutlineMap {
     private Rect canvasClipRect = new Rect();
     private Rect backgroundRect = new Rect();
     private Rect seatRect = new Rect();
+    private RectF outputSrcRect = new RectF();
 
-    public OutlineMapImpl(float outlineWidth, int backgroundColor, int availableColor, int unavailableColor, int selectedColor) {
+    public OutlineMapImpl(float outlineWidth, int backgroundColor, int availableColor, int unavailableColor, int selectedColor, int areaColor, float areaStrokeWidth) {
         this.outlineWidth = outlineWidth;
         this.backgroundColor = backgroundColor;
         this.availableColor = availableColor;
         this.unavailableColor = unavailableColor;
         this.selectedColor = selectedColor;
+        this.areaColor = areaColor;
+        this.areaStrokeWidth = areaStrokeWidth;
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(backgroundColor);
+        paint.setStrokeWidth(areaStrokeWidth);
     }
 
     @Override
@@ -91,6 +98,7 @@ public class OutlineMapImpl implements OutlineMap {
 
         //绘制背景
         paint.setColor(backgroundColor);
+        paint.setStyle(Paint.Style.FILL);
         canvas.drawRect(backgroundRect, paint);
 
         //绘制座位
@@ -122,6 +130,18 @@ public class OutlineMapImpl implements OutlineMap {
             }
         }
 
+        //从output获得实际矩形
+        output.getSrcDstRectF(outputSrcRect, null);
+
+        outputSrcRect.left = (float) backgroundCoordinate.getX() + outputSrcRect.left * (backgroundWidth / seatTable.getMatrixWidth()) + areaStrokeWidth / 2;
+        outputSrcRect.right = (float) backgroundCoordinate.getX() + outputSrcRect.right * (backgroundWidth / seatTable.getMatrixWidth()) - areaStrokeWidth / 2;
+        outputSrcRect.top = (float) backgroundCoordinate.getY() + outputSrcRect.top * (backgroundHeight / seatTable.getMatrixHeight()) + areaStrokeWidth / 2;
+        outputSrcRect.bottom = (float) backgroundCoordinate.getY() + outputSrcRect.bottom * (backgroundHeight / seatTable.getMatrixHeight()) - areaStrokeWidth / 2;
+
+        //绘制显示区域
+        paint.setColor(areaColor);
+        paint.setStyle(Paint.Style.STROKE);
+        canvas.drawRect(outputSrcRect, paint);
     }
 
     protected void calculateBackgroundCoordinate(Rect canvasClipRect, float backgroundWidth, float backgroundHeight){
