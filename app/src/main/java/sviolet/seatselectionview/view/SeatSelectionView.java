@@ -197,9 +197,11 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                 screenBar.draw(canvas, output, seatTable);
             }
 
+            boolean isActive = output.isActive();
+
             //绘制概览图
             if (outlineMap != null){
-                if (output.isActive()){
+                if (isActive){
                     outlineMap.setVisible(true);
                 } else if (outlineMap.isVisible()){
                     handler.removeMessages(MyHandler.HANDLER_SET_OUTLINE_MAP_INVISIBLE);
@@ -209,7 +211,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
             }
 
             //必须:继续刷新
-            if (output.isActive())
+            if (isActive)
                 postInvalidate();
         }
 
