@@ -13,4 +13,6 @@ public interface SeatImagePool {
 
     Rect getImageRect(SeatType type, SeatState state);
 
+    void destroy();
+
 }

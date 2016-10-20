@@ -1,16 +1,14 @@
 package sviolet.seatselectionview;
 
-import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Message;
 
 import sviolet.seatselectionview.view.OutlineMapImpl;
-import sviolet.seatselectionview.view.ScreenBarImpl;
-import sviolet.seatselectionview.view.SeatSelectionListener;
 import sviolet.seatselectionview.view.RowBarImpl;
+import sviolet.seatselectionview.view.ScreenBarImpl;
 import sviolet.seatselectionview.view.Seat;
-import sviolet.seatselectionview.view.SeatImagePool;
+import sviolet.seatselectionview.view.SeatImagePoolImpl;
+import sviolet.seatselectionview.view.SeatSelectionListener;
 import sviolet.seatselectionview.view.SeatSelectionView;
 import sviolet.seatselectionview.view.SeatState;
 import sviolet.seatselectionview.view.SeatTable;
@@ -48,18 +46,6 @@ public class MainActivity extends TAppCompatActivity {
         }
     }
 
-    private Bitmap bitmapAvailable;
-    private Bitmap bitmapUnavailable;
-    private Bitmap bitmapSelected;
-    private Rect rectAvailable;
-    private Rect rectUnavailable;
-    private Rect rectSelected;
-    private Bitmap bitmapCoupleAvailable;
-    private Bitmap bitmapCoupleUnavailable;
-    private Bitmap bitmapCoupleSelected;
-    private Rect rectCoupleAvailable;
-    private Rect rectCoupleUnavailable;
-    private Rect rectCoupleSelected;
     private int selectedCount = 0;
 
     private void initData(){
@@ -116,88 +102,13 @@ public class MainActivity extends TAppCompatActivity {
         seatTable.setSeat(9, 18, coupleSeat);
         seatTable.setSeat(9, 19, new Seat(SeatType.MULTI_SEAT_PLACEHOLDER, SeatState.NULL, coupleSeat));
 
-        bitmapAvailable = BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_available);
-        rectAvailable = new Rect(0, 0, bitmapAvailable.getWidth(), bitmapAvailable.getHeight());
-        bitmapUnavailable = BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_unavailable);
-        rectUnavailable = new Rect(0, 0, bitmapUnavailable.getWidth(), bitmapUnavailable.getHeight());
-        bitmapSelected = BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_selected);
-        rectSelected = new Rect(0, 0, bitmapSelected.getWidth(), bitmapSelected.getHeight());
-
-        bitmapCoupleAvailable = BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_couple_available);
-        rectCoupleAvailable = new Rect(0, 0, bitmapCoupleAvailable.getWidth(), bitmapCoupleAvailable.getHeight());
-        bitmapCoupleUnavailable = BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_couple_unavailable);
-        rectCoupleUnavailable = new Rect(0, 0, bitmapCoupleUnavailable.getWidth(), bitmapCoupleUnavailable.getHeight());
-        bitmapCoupleSelected = BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_couple_selected);
-        rectCoupleSelected = new Rect(0, 0, bitmapCoupleSelected.getWidth(), bitmapCoupleSelected.getHeight());
-
-        SeatImagePool imagePool = new SeatImagePool() {
-
-            @Override
-            public Bitmap getImage(SeatType type, SeatState state) {
-                switch (type){
-                    case SINGLE:
-                        switch (state){
-                            case AVAILABLE:
-                                return bitmapAvailable;
-                            case UNAVAILABLE:
-                                return bitmapUnavailable;
-                            case SELECTED:
-                                return bitmapSelected;
-                            default:
-                                break;
-                        }
-                        break;
-                    case COUPLE:
-                        switch (state){
-                            case AVAILABLE:
-                                return bitmapCoupleAvailable;
-                            case UNAVAILABLE:
-                                return bitmapCoupleUnavailable;
-                            case SELECTED:
-                                return bitmapCoupleSelected;
-                            default:
-                                break;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                return null;
-            }
-
-            @Override
-            public Rect getImageRect(SeatType type, SeatState state) {
-                switch (type){
-                    case SINGLE:
-                        switch (state){
-                            case AVAILABLE:
-                                return rectAvailable;
-                            case UNAVAILABLE:
-                                return rectUnavailable;
-                            case SELECTED:
-                                return rectSelected;
-                            default:
-                                break;
-                        }
-                        break;
-                    case COUPLE:
-                        switch (state){
-                            case AVAILABLE:
-                                return rectCoupleAvailable;
-                            case UNAVAILABLE:
-                                return rectCoupleUnavailable;
-                            case SELECTED:
-                                return rectCoupleSelected;
-                            default:
-                                break;
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                return null;
-            }
-        };
+        SeatImagePoolImpl imagePool = new SeatImagePoolImpl();
+        imagePool.setImage(SeatType.SINGLE, SeatState.AVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_available));
+        imagePool.setImage(SeatType.SINGLE, SeatState.UNAVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_unavailable));
+        imagePool.setImage(SeatType.SINGLE, SeatState.SELECTED, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_selected));
+        imagePool.setImage(SeatType.COUPLE, SeatState.AVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_couple_available));
+        imagePool.setImage(SeatType.COUPLE, SeatState.UNAVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_couple_unavailable));
+        imagePool.setImage(SeatType.COUPLE, SeatState.SELECTED, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_couple_selected));
 
         seatSelectionView.setImagePool(imagePool);
         seatSelectionView.setData(seatTable);
