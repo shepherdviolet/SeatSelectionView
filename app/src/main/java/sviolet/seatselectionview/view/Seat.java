@@ -14,10 +14,12 @@ public class Seat {
     private SeatType type;//座位类型
     private SeatState state;//座位状态
     private Seat host;//多人座位场合有效, 占位座位持有实体座位
-    private String seatId;//辅助参数, 可设置座位的ID, 用于发送交易
 
-    private int row;
-    private int column;
+    private int row;//行, 仅用于绘图
+    private int column;//列, 仅用于绘图
+
+    private String rowId;//行ID, 实际影厅里的行号, 用于与后端交互
+    private String columnId;//列ID, 实际影厅里的座位号, 用于与后端交互
 
     public Seat(SeatType type, SeatState state, Seat host){
         this.type = type;
@@ -25,11 +27,12 @@ public class Seat {
         this.host = host;
     }
 
-    public Seat(SeatType type, SeatState state, Seat host, String seatId){
+    public Seat(SeatType type, SeatState state, Seat host, String rowId, String columnId){
         this.type = type;
         this.state = state;
         this.host = host;
-        this.seatId = seatId;
+        this.rowId = rowId;
+        this.columnId = columnId;
     }
 
     public SeatState getState() {
@@ -61,12 +64,20 @@ public class Seat {
         return column;
     }
 
-    public String getSeatId() {
-        return seatId;
+    public String getRowId() {
+        return rowId;
     }
 
-    public void setSeatId(String seatId) {
-        this.seatId = seatId;
+    public void setRowId(String rowId) {
+        this.rowId = rowId;
+    }
+
+    public String getColumnId() {
+        return columnId;
+    }
+
+    public void setColumnId(String columnId) {
+        this.columnId = columnId;
     }
 
     @Override
