@@ -76,6 +76,8 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
         //简单的矩形输出, 图片长宽作为实际矩形, 控件长宽作为显示矩形, 最大放大率10
         output = new SimpleRectangleOutput(getContext());
         output.setMultiTouchMoveEnabled(true);
+        output.setOverMoveResistance(2);
+        output.setOverZoomResistance(2);
         //必须实现刷新接口, 调用postInvalidate()刷新
         output.setRefreshListener(new SimpleRectangleOutput.RefreshListener() {
             @Override
