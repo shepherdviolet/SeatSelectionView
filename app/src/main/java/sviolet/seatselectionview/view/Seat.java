@@ -16,7 +16,7 @@ public class Seat {
 
     private SeatType type;//座位类型
     private SeatState state;//座位状态
-    private List<Seat> placeHolders;//多人座位场合有效, 实体座位持有占位座位
+    private List<Seat> placeholders;//多人座位场合有效, 实体座位持有占位座位
     private Seat host;//多人座位场合有效, 占位座位持有实体座位
 
     private int row;//行, 仅用于绘图
@@ -108,8 +108,8 @@ public class Seat {
         this.columnId = columnId;
     }
 
-    public List<Seat> getPlaceHolders(){
-        return placeHolders;
+    public List<Seat> getPlaceholders(){
+        return placeholders;
     }
 
     /**
@@ -118,10 +118,10 @@ public class Seat {
      */
     public Seat createMultiSeatPlaceholder(){
         Seat placeHolder = new Seat(this, null, null);
-        if (placeHolders == null){
-            placeHolders = new ArrayList<>();
+        if (placeholders == null){
+            placeholders = new ArrayList<>();
         }
-        placeHolders.add(placeHolder);
+        placeholders.add(placeHolder);
         return placeHolder;
     }
 
@@ -133,10 +133,10 @@ public class Seat {
      */
     public Seat createMultiSeatPlaceholder(String rowId, String columnId){
         Seat placeHolder = new Seat(this, rowId, columnId);
-        if (placeHolders == null){
-            placeHolders = new ArrayList<>();
+        if (placeholders == null){
+            placeholders = new ArrayList<>();
         }
-        placeHolders.add(placeHolder);
+        placeholders.add(placeHolder);
         return placeHolder;
     }
 
