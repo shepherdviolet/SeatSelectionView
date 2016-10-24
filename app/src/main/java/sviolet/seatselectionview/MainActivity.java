@@ -102,6 +102,15 @@ public class MainActivity extends TAppCompatActivity {
         seatTable.setSeat(9, 18, coupleSeat);
         seatTable.setSeat(9, 19, new Seat(SeatType.MULTI_SEAT_PLACEHOLDER, SeatState.NULL, coupleSeat));
 
+        seatTable.setRowId(0, "1");
+        seatTable.setRowId(2, "2");
+        seatTable.setRowId(3, "3");
+        seatTable.setRowId(4, "4");
+        seatTable.setRowId(5, "5");
+        seatTable.setRowId(6, "6");
+        seatTable.setRowId(8, "7");
+        seatTable.setRowId(9, "8");
+
         SeatImagePoolImpl imagePool = new SeatImagePoolImpl();
         imagePool.setImage(SeatType.SINGLE, SeatState.AVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_available));
         imagePool.setImage(SeatType.SINGLE, SeatState.UNAVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_unavailable));

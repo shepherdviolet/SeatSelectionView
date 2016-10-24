@@ -20,6 +20,8 @@ public class SeatTable {
     private TLogger logger = TLogger.get(this, SeatSelectionView.class.getSimpleName());
 
     private Seat[][] seats;
+    private String[] rowIds;
+
     private int rowNum;
     private int columnNum;
     private float seatWidth;//(单座位)宽度
@@ -43,6 +45,7 @@ public class SeatTable {
             throw new RuntimeException("padding must >= 0");
         }
         this.seats = new Seat[row][column];
+        this.rowIds = new String[row];
         this.rowNum = row;
         this.columnNum = column;
         this.seatWidth = seatWidth;
@@ -75,6 +78,30 @@ public class SeatTable {
             return null;
         }
         return seats[row][column];
+    }
+
+    /**
+     * 给绘图行号设置影院的实际座位行号
+     * @param row 绘图行号(仅绘图)
+     * @param rowId 影院实际座位行号
+     */
+    public void setRowId(int row, String rowId){
+        if (row < 0 || row >= rowNum){
+            return;
+        }
+        rowIds[row] = rowId;
+    }
+
+    /**
+     * 根据绘图行号获得影院实际座位行号
+     * @param row 绘图行号(仅绘图)
+     * @return 影院实际座位行号, 可能为空
+     */
+    public String getRowId(int row){
+        if (row < 0 || row >= rowNum){
+            return null;
+        }
+        return rowIds[row];
     }
 
     public int getRowNum() {

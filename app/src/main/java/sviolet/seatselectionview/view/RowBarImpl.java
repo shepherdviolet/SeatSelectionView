@@ -69,12 +69,17 @@ public class RowBarImpl implements RowBar {
         //绘制行号
         paint.setColor(textColor);
         for (int i = 0 ; i < rowNum ; i++){
+            //根据显示行号获取影院实际行号
+            String rowId = seatTable.getRowId(i);
+            if (rowId == null){
+                continue;
+            }
 
             float top = (float) (topPoint.getY() + (padding + i) * displaySeatHeight);
             float bottom = top + displaySeatHeight;
             float baseline = (bottom + top - fontMetrics.bottom - fontMetrics.top) / 2;
 
-            canvas.drawText(Integer.toString(i + 1), leftPadding + barWidth / 2, baseline, paint);
+            canvas.drawText(rowId, leftPadding + barWidth / 2, baseline, paint);
         }
 
     }
