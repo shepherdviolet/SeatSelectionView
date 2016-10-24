@@ -1,8 +1,9 @@
 package sviolet.seatselectionview;
 
 import android.os.Bundle;
-import android.os.Message;
 
+import sviolet.seatselectionview.parser.SeatDataParseException;
+import sviolet.seatselectionview.parser.SimpleSeatDataParser;
 import sviolet.seatselectionview.view.OutlineMapImpl;
 import sviolet.seatselectionview.view.RowBarImpl;
 import sviolet.seatselectionview.view.ScreenBarImpl;
@@ -15,7 +16,6 @@ import sviolet.seatselectionview.view.SeatTable;
 import sviolet.seatselectionview.view.SeatType;
 import sviolet.turquoise.enhance.app.TAppCompatActivity;
 import sviolet.turquoise.enhance.app.annotation.inject.ResourceId;
-import sviolet.turquoise.enhance.common.WeakHandler;
 import sviolet.turquoise.util.common.BitmapUtils;
 import sviolet.turquoise.util.droid.MeasureUtils;
 
@@ -25,30 +25,17 @@ public class MainActivity extends TAppCompatActivity {
     @ResourceId(R.id.seat_selection_view)
     private SeatSelectionView seatSelectionView;
 
+    private int selectedCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initData();
+        initView(initSeatTable());
+
     }
 
-    private MyHandler myHandler = new MyHandler(this);
-
-    private static class MyHandler extends WeakHandler<MainActivity> {
-
-        public MyHandler(MainActivity host) {
-            super(host);
-        }
-
-        @Override
-        protected void handleMessageWithHost(Message message, MainActivity mainActivity) {
-
-        }
-    }
-
-    private int selectedCount = 0;
-
-    private void initData(){
+    private SeatTable initSeatTable(){
 
         SeatTable seatTable = new SeatTable(10, 20, MeasureUtils.dp2px(getApplicationContext(), 40), MeasureUtils.dp2px(getApplicationContext(), 40), 2);
 
@@ -111,6 +98,21 @@ public class MainActivity extends TAppCompatActivity {
         seatTable.setRowId(8, "7");
         seatTable.setRowId(9, "8");
 
+        return seatTable;
+    }
+
+    private void initView(SeatTable seatTable){
+
+        //配置座位数据
+        seatSelectionView.setData(seatTable);
+        //配置行标记
+        seatSelectionView.setRowBar(new RowBarImpl(0x80000000, 0xFFF0F0F0, MeasureUtils.dp2px(getApplicationContext(), 16), 10, MeasureUtils.dp2px(getApplicationContext(), 20)));
+        //配置屏幕标记
+        seatSelectionView.setScreenBar(new ScreenBarImpl(0xFFD0D0D0, 0xFFFFFFFF, MeasureUtils.dp2px(getApplicationContext(), 22), 0.5f, 0.02f, "大屏幕啊啊啊啊", MeasureUtils.dp2px(getApplicationContext(), 16)));
+        //配置概要图
+        seatSelectionView.setOutlineMap(new OutlineMapImpl(MeasureUtils.getScreenWidth(getApplicationContext()) / 3, 0x80000000, 0xFFFFFFFF, 0xFFFF0000, 0xFF00FF00, 0xE0FF0000, MeasureUtils.dp2px(getApplicationContext(), 1)));
+
+        //配置座位各种状态的图片
         SeatImagePoolImpl imagePool = new SeatImagePoolImpl();
         imagePool.setImage(SeatType.SINGLE, SeatState.AVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_available));
         imagePool.setImage(SeatType.SINGLE, SeatState.UNAVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_unavailable));
@@ -118,13 +120,9 @@ public class MainActivity extends TAppCompatActivity {
         imagePool.setImage(SeatType.COUPLE, SeatState.AVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_couple_available));
         imagePool.setImage(SeatType.COUPLE, SeatState.UNAVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_couple_unavailable));
         imagePool.setImage(SeatType.COUPLE, SeatState.SELECTED, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_couple_selected));
-
         seatSelectionView.setImagePool(imagePool);
-        seatSelectionView.setData(seatTable);
-        seatSelectionView.setRowBar(new RowBarImpl(0x80000000, 0xFFF0F0F0, MeasureUtils.dp2px(getApplicationContext(), 16), 10, MeasureUtils.dp2px(getApplicationContext(), 20)));
-        seatSelectionView.setScreenBar(new ScreenBarImpl(0xFFD0D0D0, 0xFFFFFFFF, MeasureUtils.dp2px(getApplicationContext(), 22), 0.5f, 0.02f, "大屏幕啊啊啊啊", MeasureUtils.dp2px(getApplicationContext(), 16)));
-        seatSelectionView.setOutlineMap(new OutlineMapImpl(MeasureUtils.getScreenWidth(getApplicationContext()) / 3, 0x80000000, 0xFFFFFFFF, 0xFFFF0000, 0xFF00FF00, 0xE0FF0000, MeasureUtils.dp2px(getApplicationContext(), 1)));
 
+        //配置座位选择监听器
         seatSelectionView.setSeatSelectionListener(new SeatSelectionListener() {
             @Override
             public boolean onSeatSelect(int row, int column, Seat seat) {

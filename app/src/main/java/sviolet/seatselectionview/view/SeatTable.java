@@ -22,11 +22,12 @@ public class SeatTable {
     private Seat[][] seats;
     private String[] rowIds;
 
-    private int rowNum;
-    private int columnNum;
+    private int rowNum;//总行数
+    private int columnNum;//总列数
+
     private float seatWidth;//(单座位)宽度
     private float seatHeight;//(单座位)高度
-    private int padding;
+    private int padding;//内边距(座位数, 座位区域距离边界的间距)
 
     public SeatTable(int row, int column, float seatWidth, float seatHeight, int padding){
         if (row < 0){
@@ -130,6 +131,27 @@ public class SeatTable {
 
     public int getPadding() {
         return padding;
+    }
+
+    public void setSeatWidth(float seatWidth) {
+        if (seatWidth <= 0){
+            throw new RuntimeException("seat width must > 0");
+        }
+        this.seatWidth = seatWidth;
+    }
+
+    public void setSeatHeight(float seatHeight) {
+        if (seatHeight <= 0){
+            throw new RuntimeException("seat height must > 0");
+        }
+        this.seatHeight = seatHeight;
+    }
+
+    public void setPadding(int padding) {
+        if (padding < 0){
+            throw new RuntimeException("padding must >= 0");
+        }
+        this.padding = padding;
     }
 
     /****************************************************************
