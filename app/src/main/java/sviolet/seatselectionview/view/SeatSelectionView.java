@@ -107,17 +107,17 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                 }
                 switch (seat.getState()){
                     case AVAILABLE:
-                        if (callbackSeatSelect(seat.getRow(), seat.getColumn(), seat)){
+                        if (callbackSeatSelect(seat)){
                             seat.setState(SeatState.SELECTED);
                         }
                         break;
                     case SELECTED:
-                        if (callbackSeatDeselect(seat.getRow(), seat.getColumn(), seat)){
+                        if (callbackSeatDeselect(seat)){
                             seat.setState(SeatState.AVAILABLE);
                         }
                         break;
                     case UNAVAILABLE:
-                        callbackUnavailableSeatSelect(seat.getRow(), seat.getColumn(), seat);
+                        callbackUnavailableSeatSelect(seat);
                         break;
                     default:
                         callbackInvalidAreaClick();
@@ -134,25 +134,25 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
 
     }
 
-    private boolean callbackSeatSelect(int row, int column, Seat seat){
+    private boolean callbackSeatSelect(Seat seat){
         if (listener == null){
             return true;
         }
-        return listener.onSeatSelect(row, column, seat);
+        return listener.onSeatSelect(seat);
     }
 
-    private boolean callbackSeatDeselect(int row, int column, Seat seat){
+    private boolean callbackSeatDeselect(Seat seat){
         if (listener == null){
             return true;
         }
-        return listener.onSeatDeselect(row, column, seat);
+        return listener.onSeatDeselect(seat);
     }
 
-    private void callbackUnavailableSeatSelect(int row, int column, Seat seat){
+    private void callbackUnavailableSeatSelect(Seat seat){
         if (listener == null){
             return;
         }
-        listener.onUnavailableSeatSelect(row, column, seat);
+        listener.onUnavailableSeatSelect(seat);
     }
 
     private void callbackInvalidAreaClick(){
