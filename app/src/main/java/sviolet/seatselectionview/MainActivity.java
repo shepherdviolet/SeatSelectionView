@@ -31,74 +31,127 @@ public class MainActivity extends TAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initView(initSeatTable());
+//        initView(initSeatTable1());
+        initView(initSeatTable2());
 
     }
 
-    private SeatTable initSeatTable(){
+    /**
+     * 代码方式配置座位状态, 为了解释配置方法, 没有采用循环方式填充, 一个座位一个座位配置, 可以解释的比较清楚
+     */
+    private SeatTable initSeatTable1(){
 
-        SeatTable seatTable = new SeatTable(10, 20, MeasureUtils.dp2px(getApplicationContext(), 40), MeasureUtils.dp2px(getApplicationContext(), 40), 2);
+        //座位5行5列, 座位宽高40dp, 内间距1座位
+        SeatTable seatTable = new SeatTable(5, 5, MeasureUtils.dp2px(getApplicationContext(), 40), MeasureUtils.dp2px(getApplicationContext(), 40), 1);
 
-        for (int row = 0 ; row < 9 ; row++){
-            for (int column = 0 ; column < 20 ; column++){
-                if (row == 1 || row == 7){
-                    seatTable.setSeat(row, column, new Seat(SeatType.SINGLE, SeatState.NULL, null));
-                }else if (column == 2 || column == 18){
-                    seatTable.setSeat(row, column, new Seat(SeatType.SINGLE, SeatState.NULL, null));
-                } else {
-                    seatTable.setSeat(row, column, new Seat(SeatType.SINGLE, SeatState.AVAILABLE, null));
-                }
-            }
-        }
+        //第一行
 
-        seatTable.getSeat(3, 4).setState(SeatState.UNAVAILABLE);
-        seatTable.getSeat(3, 5).setState(SeatState.UNAVAILABLE);
-        seatTable.getSeat(3, 6).setState(SeatState.UNAVAILABLE);
-        seatTable.getSeat(3, 7).setState(SeatState.UNAVAILABLE);
-        seatTable.getSeat(6, 6).setState(SeatState.UNAVAILABLE);
-        seatTable.getSeat(6, 7).setState(SeatState.UNAVAILABLE);
-
-        Seat coupleSeat = new Seat(SeatType.COUPLE, SeatState.AVAILABLE, null);
-        seatTable.setSeat(9, 0, coupleSeat);
-        seatTable.setSeat(9, 1, new Seat(SeatType.MULTI_SEAT_PLACEHOLDER, SeatState.NULL, coupleSeat));
-        coupleSeat = new Seat(SeatType.COUPLE, SeatState.AVAILABLE, null);
-        seatTable.setSeat(9, 2, coupleSeat);
-        seatTable.setSeat(9, 3, new Seat(SeatType.MULTI_SEAT_PLACEHOLDER, SeatState.NULL, coupleSeat));
-        coupleSeat = new Seat(SeatType.COUPLE, SeatState.UNAVAILABLE, null);
-        seatTable.setSeat(9, 4, coupleSeat);
-        seatTable.setSeat(9, 5, new Seat(SeatType.MULTI_SEAT_PLACEHOLDER, SeatState.NULL, coupleSeat));
-        coupleSeat = new Seat(SeatType.COUPLE, SeatState.UNAVAILABLE, null);
-        seatTable.setSeat(9, 6, coupleSeat);
-        seatTable.setSeat(9, 7, new Seat(SeatType.MULTI_SEAT_PLACEHOLDER, SeatState.NULL, coupleSeat));
-        coupleSeat = new Seat(SeatType.COUPLE, SeatState.AVAILABLE, null);
-        seatTable.setSeat(9, 8, coupleSeat);
-        seatTable.setSeat(9, 9, new Seat(SeatType.MULTI_SEAT_PLACEHOLDER, SeatState.NULL, coupleSeat));
-        coupleSeat = new Seat(SeatType.COUPLE, SeatState.AVAILABLE, null);
-        seatTable.setSeat(9, 10, coupleSeat);
-        seatTable.setSeat(9, 11, new Seat(SeatType.MULTI_SEAT_PLACEHOLDER, SeatState.NULL, coupleSeat));
-        coupleSeat = new Seat(SeatType.COUPLE, SeatState.AVAILABLE, null);
-        seatTable.setSeat(9, 12, coupleSeat);
-        seatTable.setSeat(9, 13, new Seat(SeatType.MULTI_SEAT_PLACEHOLDER, SeatState.NULL, coupleSeat));
-        coupleSeat = new Seat(SeatType.COUPLE, SeatState.UNAVAILABLE, null);
-        seatTable.setSeat(9, 14, coupleSeat);
-        seatTable.setSeat(9, 15, new Seat(SeatType.MULTI_SEAT_PLACEHOLDER, SeatState.NULL, coupleSeat));
-        coupleSeat = new Seat(SeatType.COUPLE, SeatState.AVAILABLE, null);
-        seatTable.setSeat(9, 16, coupleSeat);
-        seatTable.setSeat(9, 17, new Seat(SeatType.MULTI_SEAT_PLACEHOLDER, SeatState.NULL, coupleSeat));
-        coupleSeat = new Seat(SeatType.COUPLE, SeatState.AVAILABLE, null);
-        seatTable.setSeat(9, 18, coupleSeat);
-        seatTable.setSeat(9, 19, new Seat(SeatType.MULTI_SEAT_PLACEHOLDER, SeatState.NULL, coupleSeat));
-
+        //给显示的第0行配置影院行号1, 用于行标识的显示
         seatTable.setRowId(0, "1");
-        seatTable.setRowId(2, "2");
+        //在显示中(0,0)的位置添加一个单人座, 可选状态, 影院行号1, 座位号1
+        seatTable.setSeat(0, 0, new Seat(SeatType.SINGLE, SeatState.AVAILABLE, "1", "1"));
+        //在显示中(0,2)的位置添加一个单人座, 可选状态, 影院行号1, 座位号2, 也就是空了一列
+        seatTable.setSeat(0, 2, new Seat(SeatType.SINGLE, SeatState.AVAILABLE, "1", "2"));
+        //在显示中(0,3)的位置添加一个单人座, 可选状态, 影院行号1, 座位号3
+        seatTable.setSeat(0, 3, new Seat(SeatType.SINGLE, SeatState.AVAILABLE, "1", "3"));
+        //在显示中(0,4)的位置添加一个单人座, 可选状态, 影院行号1, 座位号4
+        seatTable.setSeat(0, 4, new Seat(SeatType.SINGLE, SeatState.AVAILABLE, "1", "4"));
+
+        //第二行
+
+        //给显示的第1行配置影院行号2, 用于行标识的显示
+        seatTable.setRowId(1, "2");
+        //在显示中(1,1)的位置添加一个单人座, 可选状态, 影院行号2, 座位号1, 前面空了一个位子
+        seatTable.setSeat(1, 1, new Seat(SeatType.SINGLE, SeatState.AVAILABLE, "2", "1"));
+        //在显示中(1,2)的位置添加一个单人座, 不可选状态, 影院行号2, 座位号2
+        seatTable.setSeat(1, 2, new Seat(SeatType.SINGLE, SeatState.UNAVAILABLE, "2", "2"));
+        //在显示中(1,3)的位置添加一个单人座, 不可选状态, 影院行号2, 座位号3
+        seatTable.setSeat(1, 3, new Seat(SeatType.SINGLE, SeatState.UNAVAILABLE, "2", "3"));
+        //在显示中(1,4)的位置添加一个单人座, 可选状态, 影院行号2, 座位号4
+        seatTable.setSeat(1, 4, new Seat(SeatType.SINGLE, SeatState.AVAILABLE, "2", "4"));
+
+        //显示第三行留空
+
+        //第四行
+
+        //给显示的第3行配置影院行号3, 用于行标识的显示
         seatTable.setRowId(3, "3");
+        //在显示中(3,1)的位置添加一个单人座, 不可选状态, 影院行号3, 座位号1, 前面空了一个位子
+        seatTable.setSeat(3, 1, new Seat(SeatType.SINGLE, SeatState.UNAVAILABLE, "3", "1"));
+        //在显示中(3,2)的位置添加一个单人座, 可选状态, 影院行号3, 座位号2
+        seatTable.setSeat(3, 2, new Seat(SeatType.SINGLE, SeatState.AVAILABLE, "3", "2"));
+        //在显示中(3,3)的位置添加一个单人座, 可选状态, 影院行号3, 座位号3
+        seatTable.setSeat(3, 3, new Seat(SeatType.SINGLE, SeatState.AVAILABLE, "3", "3"));
+        //在显示中(3,4)的位置添加一个单人座, 可选状态, 影院行号3, 座位号4
+        seatTable.setSeat(3, 4, new Seat(SeatType.SINGLE, SeatState.AVAILABLE, "3", "4"));
+
+        //第五行, 情侣座
+
+        //给显示的第4行配置影院行号4, 用于行标识的显示
         seatTable.setRowId(4, "4");
-        seatTable.setRowId(5, "5");
-        seatTable.setRowId(6, "6");
-        seatTable.setRowId(8, "7");
-        seatTable.setRowId(9, "8");
+        //因为情侣座是两个位置连座, 且同时选中或取消, 我们定义左边的座位为实体座位, 右边为占位座位, 两者相互持有
+        //座位的选择状态由实体座位决定, 绘图时也仅绘制实体座位, 占位座位不绘制, 在点选占位座位时, 会映射到实体座位触发回调
+        //实体座位的getPlaceholders()方法可获得它对应的占位座位, 用来获得所有座位的影院行号座位号
+        //先实例化一个情侣座, 可选状态, 影院行号4, 座位号1, 情侣座左边的座位视为座位实体
+        Seat seat = new Seat(SeatType.COUPLE, SeatState.AVAILABLE, "4", "1");
+        //利用实体座位创建一个占位座位, 即为情侣座右边的座位, 并配置行号座位号
+        Seat placeholder = seat.createMultiSeatPlaceholder("4", "2");
+        //放入实体座位
+        seatTable.setSeat(4, 0, seat);
+        //在实体座位右侧放入对应的占位座位
+        seatTable.setSeat(4, 1, placeholder);
+        //配置第二个情侣座, 不可选状态
+        seat = new Seat(SeatType.COUPLE, SeatState.UNAVAILABLE, "4", "3");
+        placeholder = seat.createMultiSeatPlaceholder("4", "4");
+        seatTable.setSeat(4, 2, seat);
+        seatTable.setSeat(4, 3, placeholder);
 
         return seatTable;
+    }
+
+    private SeatTable initSeatTable2(){
+
+        try {
+            SimpleSeatDataParser parser = new SimpleSeatDataParser(10, 20, MeasureUtils.dp2px(getApplicationContext(), 40), MeasureUtils.dp2px(getApplicationContext(), 40), 2);
+            parser.addRow(0, "1",
+                    "N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N",
+                    "N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N",
+                    "N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N");
+            parser.addRow(1, "2",
+                    "N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N",
+                    "N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N",
+                    "N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N");
+            parser.addRow(3, "3",
+                    "N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|N|N|N|N",
+                    "N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|N|N",
+                    "N|A|A|A|A|U|U|U|A|A|A|A|U|U|A|A|N|N|N|N");
+            parser.addRow(4, "4",
+                    "N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|N|N|N|N",
+                    "N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|N|N",
+                    "N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N|N|N|N");
+            parser.addRow(5, "5",
+                    "N|N|2|3|4|5|6|7|8|9|10|11|12|13|14|15|N|N|N|N",
+                    "N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|N|N",
+                    "N|N|A|A|A|A|U|U|U|U|U|U|A|A|A|A|N|N|N|N");
+            parser.addRow(6, "6",
+                    "N|N|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N",
+                    "N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N",
+                    "N|N|A|A|A|A|A|A|U|U|U|U|A|A|A|A|A|A|A|N");
+            parser.addRow(8, "7",
+                    "N|N|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N",
+                    "N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N",
+                    "N|N|A|A|A|A|A|A|A|A|A|A|A|U|U|A|A|A|A|N");
+            parser.addRow(9, "8",
+                    "N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N",
+                    "N|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|N",
+                    "N|A|A|A|A|U|U|A|A|A|A|A|A|U|U|A|A|A|A|N");
+            return parser.parse();
+        } catch (SeatDataParseException e) {
+            //解析异常处理
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private void initView(SeatTable seatTable){
@@ -125,7 +178,7 @@ public class MainActivity extends TAppCompatActivity {
         //配置座位选择监听器
         seatSelectionView.setSeatSelectionListener(new SeatSelectionListener() {
             @Override
-            public boolean onSeatSelect(int row, int column, Seat seat) {
+            public boolean onSeatSelect(Seat seat) {
                 int seatNum = 0;
                 switch (seat.getType()){
                     case SINGLE:
@@ -141,11 +194,12 @@ public class MainActivity extends TAppCompatActivity {
                     return false;
                 }
                 selectedCount += seatNum;
+
                 return true;
             }
 
             @Override
-            public boolean onSeatDeselect(int row, int column, Seat seat) {
+            public boolean onSeatDeselect(Seat seat) {
                 int seatNum = 0;
                 switch (seat.getType()){
                     case SINGLE:
@@ -162,7 +216,7 @@ public class MainActivity extends TAppCompatActivity {
             }
 
             @Override
-            public void onUnavailableSeatSelect(int row, int column, Seat seat) {
+            public void onUnavailableSeatSelect(Seat seat) {
 
             }
 
