@@ -22,7 +22,7 @@ public class OutlineMapImpl implements OutlineMap {
     private int areaColor;
     private float areaStrokeWidth;
 
-    private boolean visible = false;
+    private boolean visible = true;
 
     private Paint paint;
 
