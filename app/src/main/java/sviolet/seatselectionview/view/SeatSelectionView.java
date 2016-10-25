@@ -97,6 +97,11 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                     output.manualZoom(displayX, displayY, (output.getMaxZoomMagnification() - 1) / 2 + 1, 500);
                     return;
                 }
+                //通知概要图, 座位状态可能变更, 需要重新绘图
+                if (outlineMap != null){
+                    outlineMap.outlineChanged();
+                }
+                //根据触点的实际坐标, 获得座位
                 Seat seat = seatTable.getSeatByCoordinate(actualX, actualY);
                 if(seat == null){
                     callbackInvalidAreaClick();

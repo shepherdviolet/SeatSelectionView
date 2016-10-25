@@ -12,10 +12,24 @@ import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
 
 public interface OutlineMap {
 
+    /**
+     * 设置概要图是否显示
+     */
     void setVisible(boolean visible);
 
+    /**
+     * @return 返回概要图是否显示
+     */
     boolean isVisible();
 
+    /**
+     * 通知概要图刷新(座位状态变化, 需要重新绘图)
+     */
+    void outlineChanged();
+
+    /**
+     * 绘制
+     */
     void draw(Canvas canvas, SimpleRectangleOutput output, SeatTable seatTable);
 
 }
