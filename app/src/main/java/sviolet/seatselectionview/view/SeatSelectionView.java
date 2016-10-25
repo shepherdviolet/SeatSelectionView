@@ -78,6 +78,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
         output.setMultiTouchMoveEnabled(true);
         output.setOverMoveResistance(2);
         output.setOverZoomResistance(2);
+        output.setScrollDuration(250);
         //必须实现刷新接口, 调用postInvalidate()刷新
         output.setRefreshListener(new SimpleRectangleOutput.RefreshListener() {
             @Override
@@ -90,6 +91,10 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
             @Override
             public void onClick(float actualX, float actualY, float displayX, float displayY) {
                 if (seatTable == null){
+                    return;
+                }
+                if (output.getCurrZoomMagnification() < output.getMaxZoomMagnification() && output.getCurrZoomMagnification() < (output.getMaxZoomMagnification() - 1) / 4 + 1){
+                    output.manualZoom(displayX, displayY, (output.getMaxZoomMagnification() - 1) / 2 + 1, 500);
                     return;
                 }
                 Seat seat = seatTable.getSeatByCoordinate(actualX, actualY);
@@ -252,6 +257,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
 
         if (output != null) {
             output.reset(seatTable.getMatrixWidth(), seatTable.getMatrixHeight(), getWidth(), getHeight(), SimpleRectangleOutput.AUTO_MAGNIFICATION_LIMIT, SimpleRectangleOutput.InitScaleType.FIT_TOP);
+            output.manualZoom(getWidth() / 2, 0, (output.getMaxZoomMagnification() - 1) / 3 + 1, 0);
             postInvalidate();
         }
 
