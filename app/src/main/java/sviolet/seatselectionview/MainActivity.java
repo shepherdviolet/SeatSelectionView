@@ -42,7 +42,7 @@ public class MainActivity extends TAppCompatActivity {
     private SeatTable initSeatTable1(){
 
         //座位5行5列, 座位宽高40dp, 内间距1座位
-        SeatTable seatTable = new SeatTable(5, 5, MeasureUtils.dp2px(getApplicationContext(), 40), MeasureUtils.dp2px(getApplicationContext(), 40), 1);
+        SeatTable seatTable = new SeatTable(5, 5, MeasureUtils.dp2px(getApplicationContext(), 50), MeasureUtils.dp2px(getApplicationContext(), 50), 1);
 
         //第一行
 
@@ -112,39 +112,75 @@ public class MainActivity extends TAppCompatActivity {
     private SeatTable initSeatTable2(){
 
         try {
-            SimpleSeatDataParser parser = new SimpleSeatDataParser(10, 20, MeasureUtils.dp2px(getApplicationContext(), 40), MeasureUtils.dp2px(getApplicationContext(), 40), 2);
+            SimpleSeatDataParser parser = new SimpleSeatDataParser(20, 40, MeasureUtils.dp2px(getApplicationContext(), 50), MeasureUtils.dp2px(getApplicationContext(), 50), 2);
             parser.addRow(0, "1",
-                    "N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N",
-                    "N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N",
-                    "N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N");
+                    "N|N|N|N|N|N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N|N|19|20|21|22|23|24|25|26|27|28|29|N|N|N",
+                    "N|N|N|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|S|S|S|S|S|S|S|S|S|S|S|N|N|N",
+                    "N|N|N|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N|N|A|A|A|A|A|A|A|A|A|A|A|N|N|N");
             parser.addRow(1, "2",
-                    "N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N",
-                    "N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N",
-                    "N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N");
-            parser.addRow(3, "3",
-                    "N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|N|N|N|N",
-                    "N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|N|N",
-                    "N|A|A|A|A|U|U|U|A|A|A|A|U|U|A|A|N|N|N|N");
-            parser.addRow(4, "4",
-                    "N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|N|N|N|N",
-                    "N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|N|N",
-                    "N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N|N|N|N");
-            parser.addRow(5, "5",
-                    "N|N|2|3|4|5|6|7|8|9|10|11|12|13|14|15|N|N|N|N",
-                    "N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|N|N",
-                    "N|N|A|A|A|A|U|U|U|U|U|U|A|A|A|A|N|N|N|N");
+                    "N|N|N|N|N|N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N|N|19|20|21|22|23|24|25|26|27|28|29|N|N|N",
+                    "N|N|N|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|S|S|S|S|S|S|S|S|S|S|S|N|N|N",
+                    "N|N|N|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N|N|A|A|A|A|A|A|A|A|A|A|A|N|N|N");
+            parser.addRow(2, "3",
+                    "N|N|N|N|N|N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N|N|19|20|21|22|23|24|25|26|27|28|29|N|N|N",
+                    "N|N|N|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|S|S|S|S|S|S|S|S|S|S|S|N|N|N",
+                    "N|N|N|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N|N|A|A|A|A|A|A|A|A|A|A|A|N|N|N");
+            parser.addRow(3, "4",
+                    "N|N|N|N|N|N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N|N|19|20|21|22|23|24|25|26|27|28|29|N|N|N",
+                    "N|N|N|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|S|S|S|S|S|S|S|S|S|S|S|N|N|N",
+                    "N|N|N|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N|N|A|A|A|A|A|A|A|A|A|A|A|N|N|N");
+            parser.addRow(4, "5",
+                    "N|N|N|N|N|N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N|N|19|20|21|22|23|24|25|26|27|28|29|N|N|N",
+                    "N|N|N|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|S|S|S|S|S|S|S|S|S|S|S|N|N|N",
+                    "N|N|N|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N|N|A|A|A|A|A|A|A|A|A|A|A|N|N|N");
             parser.addRow(6, "6",
-                    "N|N|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N",
-                    "N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N",
-                    "N|N|A|A|A|A|A|A|U|U|U|U|A|A|A|A|A|A|A|N");
-            parser.addRow(8, "7",
-                    "N|N|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N",
-                    "N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N",
-                    "N|N|A|A|A|A|A|A|A|A|A|A|A|U|U|A|A|A|A|N");
-            parser.addRow(9, "8",
-                    "N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N",
-                    "N|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|N",
-                    "N|A|A|A|A|U|U|A|A|A|A|A|A|U|U|A|A|A|A|N");
+                    "N|1|2|N|N|N|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|N|N|N",
+                    "N|S|S|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|N",
+                    "N|A|A|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N|N|N");
+            parser.addRow(7, "7",
+                    "N|1|2|N|N|N|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|N|N|N",
+                    "N|S|S|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|N",
+                    "N|A|A|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N|N|N");
+            parser.addRow(8, "8",
+                    "N|1|2|N|N|N|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|N|N|N",
+                    "N|S|S|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|N",
+                    "N|A|A|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N|N|N");
+            parser.addRow(9, "9",
+                    "N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|N|N|N",
+                    "N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|N",
+                    "N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N|N|N");
+            parser.addRow(10, "10",
+                    "N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|N|N|N",
+                    "N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|N",
+                    "N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N|N|N");
+            parser.addRow(11, "11",
+                    "N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|36|N|N|N",
+                    "N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|N",
+                    "N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N|N|N");
+            parser.addRow(13, "12",
+                    "N|N|N|N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|N",
+                    "N|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N",
+                    "N|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N");
+            parser.addRow(14, "13",
+                    "N|N|N|N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|N",
+                    "N|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N",
+                    "N|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N");
+            parser.addRow(15, "14",
+                    "N|N|N|N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|N",
+                    "N|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N",
+                    "N|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N");
+            parser.addRow(16, "15",
+                    "N|N|N|N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|N",
+                    "N|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N",
+                    "N|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N");
+            parser.addRow(18, "16",
+                    "N|N|N|N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|35|N",
+                    "N|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N",
+                    "N|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N");
+            parser.addRow(19, "17",
+                    "N|N|N|N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31|32|33|34|N|N",
+                    "N|N|N|N|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|C|H|N|N",
+                    "N|N|N|N|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|A|N");
             return parser.parse();
         } catch (SeatDataParseException e) {
             //解析异常处理
@@ -164,6 +200,8 @@ public class MainActivity extends TAppCompatActivity {
         seatSelectionView.setScreenBar(new ScreenBarImpl(0xFFD0D0D0, 0xFFFFFFFF, MeasureUtils.dp2px(getApplicationContext(), 22), 0.5f, 0.02f, "大屏幕啊啊啊啊", MeasureUtils.dp2px(getApplicationContext(), 16)));
         //配置概要图
         seatSelectionView.setOutlineMap(new OutlineMapImpl(MeasureUtils.getScreenWidth(getApplicationContext()) / 3, 0x80000000, 0xFFFFFFFF, 0xFFFF0000, 0xFF00FF00, 0xE0FF0000, MeasureUtils.dp2px(getApplicationContext(), 1)));
+        //配置概要图显示时间
+        seatSelectionView.setOutlineDelay(1000);
 
         //配置座位各种状态的图片
         SeatImagePoolImpl imagePool = new SeatImagePoolImpl();
