@@ -136,13 +136,13 @@ public class OutlineMapImpl implements OutlineMap {
         float unitWidth = outlineWidth / (float)displayColumnNum;
 
         //计算座位宽度
-        int seatWidth = (int) Math.floor(unitWidth * 0.6f);//80%分配给座位
+        int seatWidth = (int) Math.floor(unitWidth * 0.65f);//80%分配给座位
         if (seatWidth < 2){
             seatWidth = 2;
         }
 
         //计算座位间距
-        int seatSpacing = (int) Math.floor(unitWidth * 0.4f);//20%分配给间隔
+        int seatSpacing = (int) Math.floor(unitWidth * 0.35f);//20%分配给间隔
         if (seatSpacing < 1){
             seatSpacing = 1;
         }

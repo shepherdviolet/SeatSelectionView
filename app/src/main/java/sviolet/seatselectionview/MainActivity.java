@@ -32,8 +32,8 @@ public class MainActivity extends TAppCompatActivity {
         super.onCreate(savedInstanceState);
 
 //        initView(initSeatTable1());
-//        initView(initSeatTable2());
-        initView(initSeatTable3());
+        initView(initSeatTable2());
+//        initView(initSeatTable3());
 
     }
 
@@ -275,7 +275,7 @@ public class MainActivity extends TAppCompatActivity {
         //配置屏幕标记
         seatSelectionView.setScreenBar(new ScreenBarImpl(0xFFD0D0D0, 0xFFFFFFFF, MeasureUtils.dp2px(getApplicationContext(), 22), 0.5f, 0.02f, "大屏幕啊啊啊啊", MeasureUtils.dp2px(getApplicationContext(), 16)));
         //配置概要图
-        seatSelectionView.setOutlineMap(new OutlineMapImpl(MeasureUtils.getScreenWidth(getApplicationContext()) / 3, 0x80000000, 0xFFFFFFFF, 0xFFFF0000, 0xFF00FF00, 0xE0FF0000, MeasureUtils.dp2px(getApplicationContext(), 1)));
+        seatSelectionView.setOutlineMap(new OutlineMapImpl(MeasureUtils.getScreenWidth(getApplicationContext()) * 2 / 5, 0x80000000, 0xFFFFFFFF, 0xFFFF0000, 0xFF00FF00, 0xE0FF0000, MeasureUtils.dp2px(getApplicationContext(), 1)));
         //配置概要图显示时间
         seatSelectionView.setOutlineDelay(1000);
 
