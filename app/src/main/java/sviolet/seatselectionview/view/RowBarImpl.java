@@ -14,6 +14,8 @@ import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
 
 public class RowBarImpl implements RowBar {
 
+    private static final String DOT = "▫";
+
     private int backgroundColor;
     private int textColor;
     private float leftPadding;
@@ -26,6 +28,7 @@ public class RowBarImpl implements RowBar {
     private Paint paint;
     private float textWidth;
     private float textHeight;
+    private float textAscentDescentHeight;
     private Paint.FontMetrics fontMetrics;
 
     public RowBarImpl(int backgroundColor, int textColor, int textSize, float leftPadding, float barWidth) {
@@ -41,7 +44,8 @@ public class RowBarImpl implements RowBar {
         paint.setTextAlign(Paint.Align.CENTER);
         textWidth = paint.measureText("4");//测量文本宽度
         fontMetrics = paint.getFontMetrics();//测量字体属性: top:baseline到最高的距离, bottom:baseline到最低的距离
-        textHeight = fontMetrics.bottom - fontMetrics.top;//字体高度
+        textHeight = fontMetrics.bottom - fontMetrics.top;//字体高度(最大)
+        textAscentDescentHeight = fontMetrics.descent - fontMetrics.ascent;//字体高度(ascent到descent距离)
 
     }
 
@@ -66,6 +70,12 @@ public class RowBarImpl implements RowBar {
         paint.setColor(backgroundColor);
         canvas.drawRoundRect(backgroundRect, barWidth / 2, barWidth / 2, paint);//第二个参数是x半径，第三个参数是y半径
 
+        //当显示的座位高度小于字体高度, 会导致行号重叠, 这种情况下仅绘制点, 不绘制数字
+        boolean drawDot = false;
+        if(displaySeatHeight < textAscentDescentHeight * 0.8f){
+            drawDot = true;
+        }
+
         //绘制行号
         paint.setColor(textColor);
         for (int i = 0 ; i < rowNum ; i++){
@@ -73,6 +83,9 @@ public class RowBarImpl implements RowBar {
             String rowId = seatTable.getRowId(i);
             if (rowId == null){
                 continue;
+            }
+            if (drawDot) {
+                rowId = DOT;
             }
 
             float top = (float) (topPoint.getY() + (padding + i) * displaySeatHeight);
