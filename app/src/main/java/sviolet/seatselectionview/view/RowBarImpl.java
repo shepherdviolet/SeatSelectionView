@@ -14,7 +14,7 @@ import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
 
 public class RowBarImpl implements RowBar {
 
-    private static final String DOT = "▫";
+    private static final String DOT = "•";
 
     private int backgroundColor;
     private int textColor;
