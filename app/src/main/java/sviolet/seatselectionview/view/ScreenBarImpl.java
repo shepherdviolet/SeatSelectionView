@@ -68,14 +68,27 @@ public class ScreenBarImpl implements ScreenBar {
             screenWidth = textWidth * 1.2f;
         }
 
+        //计算屏幕的绘图路径
         float left = (float) (leftPoint.getX() + (displayWidth - screenWidth) / 2);
         float right = left + screenWidth;
+        float bottomLeft = left + screenWidth * trapezoidFactor;
+        float bottomRight = right - screenWidth * trapezoidFactor;
+
+        //路径超过显示范围的, 调整路径, 防止路径过长
+        if (bottomLeft < 0){
+            left = 0;
+            bottomLeft = 0;
+        }
+        if (bottomRight > canvas.getWidth()){
+            right = canvas.getWidth();
+            bottomRight = canvas.getWidth();
+        }
 
         backgroundPath.reset();
         backgroundPath.moveTo(left, 0);
         backgroundPath.lineTo(right, 0);
-        backgroundPath.lineTo(right - screenWidth * trapezoidFactor, barHeight);
-        backgroundPath.lineTo(left + screenWidth * trapezoidFactor, barHeight);
+        backgroundPath.lineTo(bottomRight, barHeight);
+        backgroundPath.lineTo(bottomLeft, barHeight);
 
         paint.setColor(backgroundColor);
         canvas.drawPath(backgroundPath, paint);
