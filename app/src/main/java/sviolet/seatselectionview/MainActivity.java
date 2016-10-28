@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import sviolet.seatselectionview.parser.SeatDataParseException;
 import sviolet.seatselectionview.parser.SimpleSeatDataParser;
+import sviolet.seatselectionview.view.MidLineImpl;
 import sviolet.seatselectionview.view.OutlineMapImpl;
 import sviolet.seatselectionview.view.RowBarImpl;
 import sviolet.seatselectionview.view.ScreenBarImpl;
@@ -278,6 +279,8 @@ public class MainActivity extends TAppCompatActivity {
         seatSelectionView.setOutlineMap(new OutlineMapImpl(MeasureUtils.getScreenWidth(getApplicationContext()) * 2 / 5, 0x80000000, 0xFFFAFAFA, 0xFFFF8080, 0xFF80FF80, 0xE0FF0000, MeasureUtils.dp2px(getApplicationContext(), 1)));
         //配置概要图显示时间
         seatSelectionView.setOutlineDelay(1000);
+        //配置中线
+        seatSelectionView.setMidLine(new MidLineImpl());
 
         //配置座位各种状态的图片
         SeatImagePoolImpl imagePool = new SeatImagePoolImpl();

@@ -41,6 +41,8 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
     private ScreenBar screenBar;
     //概览图
     private OutlineMap outlineMap;
+    //中线
+    private MidLine midLine;
 
     //概览图在滑动停止后的显示延迟
     private long outlineDelay = 500;
@@ -196,8 +198,18 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                 return;
             }
 
+            //绘制中线
+            if (midLine != null && midLine.isUnderSeatLayer()){
+                midLine.draw(canvas, output, seatTable);
+            }
+
             //绘制座位
             seatTable.draw(canvas, output, imagePool);
+
+            //绘制中线
+            if (midLine != null && !midLine.isUnderSeatLayer()){
+                midLine.draw(canvas, output, seatTable);
+            }
 
             //绘制行标识
             if (rowBar != null){
@@ -251,6 +263,10 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
 
     public void setOutlineMap(OutlineMap outlineMap) {
         this.outlineMap = outlineMap;
+    }
+
+    public void setMidLine(MidLine midLine){
+        this.midLine = midLine;
     }
 
     public void setData(SeatTable seatTable){
