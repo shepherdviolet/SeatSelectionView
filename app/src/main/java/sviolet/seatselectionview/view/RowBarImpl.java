@@ -2,6 +2,7 @@ package sviolet.seatselectionview.view;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.RectF;
 
 import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
@@ -50,7 +51,7 @@ public class RowBarImpl implements RowBar {
     }
 
     @Override
-    public void draw(Canvas canvas, SimpleRectangleOutput output, SeatTable seatTable) {
+    public void draw(Canvas canvas, Rect srcRect, Rect dstRect, SimpleRectangleOutput output, SeatTable seatTable) {
 
         //通过将座位矩形的点映射到显示矩形, 来获得绘制坐标和高度
         output.mappingActualPointToDisplay(0, 0, topPoint);

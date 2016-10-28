@@ -6,6 +6,7 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathEffect;
+import android.graphics.Rect;
 
 import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
 
@@ -34,7 +35,7 @@ public class MidLineImpl implements MidLine {
     }
 
     @Override
-    public void draw(Canvas canvas, SimpleRectangleOutput output, SeatTable seatTable) {
+    public void draw(Canvas canvas, Rect srcRect, Rect dstRect, SimpleRectangleOutput output, SeatTable seatTable) {
 
         //将实际矩形的中线映射到显示矩形中
         float x = seatTable.getMatrixWidth() / 2f;

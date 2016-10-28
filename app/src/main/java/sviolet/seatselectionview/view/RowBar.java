@@ -1,6 +1,7 @@
 package sviolet.seatselectionview.view;
 
 import android.graphics.Canvas;
+import android.graphics.Rect;
 
 import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
 
@@ -12,6 +13,6 @@ import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
 
 public interface RowBar {
 
-    void draw(Canvas canvas, SimpleRectangleOutput output, SeatTable seatTable);
+    void draw(Canvas canvas, Rect srcRect, Rect dstRect, SimpleRectangleOutput output, SeatTable seatTable);
 
 }

@@ -37,7 +37,6 @@ public class OutlineMapImpl implements OutlineMap {
     private Rect backgroundRect = new Rect();//背景图矩形
     private Rect seatRect = new Rect();//座位矩形
     private Rect cacheRect = new Rect();//cache缓存的矩形
-    private RectF outputSrcRect = new RectF();//output输出的源矩形
 
     public OutlineMapImpl(float outlineWidth, int backgroundColor, int availableColor, int unavailableColor, int selectedColor, int areaColor, float areaStrokeWidth) {
         this.outlineWidth = outlineWidth;
@@ -74,7 +73,7 @@ public class OutlineMapImpl implements OutlineMap {
     }
 
     @Override
-    public void draw(Canvas canvas, SimpleRectangleOutput output, SeatTable seatTable) {
+    public void draw(Canvas canvas, Rect srcRect, Rect dstRect, SimpleRectangleOutput output, SeatTable seatTable) {
         if (!visible){
             return;
         }
@@ -105,18 +104,15 @@ public class OutlineMapImpl implements OutlineMap {
             return;
         }
 
-        //从output获得实际矩形
-        output.getSrcDstRectF(outputSrcRect, null);
-
-        outputSrcRect.left = (float) backgroundCoordinate.getX() + outputSrcRect.left * (cacheRect.width() / seatTable.getMatrixWidth()) + areaStrokeWidth / 2;
-        outputSrcRect.right = (float) backgroundCoordinate.getX() + outputSrcRect.right * (cacheRect.width() / seatTable.getMatrixWidth()) - areaStrokeWidth / 2;
-        outputSrcRect.top = (float) backgroundCoordinate.getY() + outputSrcRect.top * (cacheRect.height() / seatTable.getMatrixHeight()) + areaStrokeWidth / 2;
-        outputSrcRect.bottom = (float) backgroundCoordinate.getY() + outputSrcRect.bottom * (cacheRect.height() / seatTable.getMatrixHeight()) - areaStrokeWidth / 2;
+        srcRect.left = (int) (backgroundCoordinate.getX() + srcRect.left * (cacheRect.width() / seatTable.getMatrixWidth()) + areaStrokeWidth / 2);
+        srcRect.right = (int) (backgroundCoordinate.getX() + srcRect.right * (cacheRect.width() / seatTable.getMatrixWidth()) - areaStrokeWidth / 2);
+        srcRect.top = (int) (backgroundCoordinate.getY() + srcRect.top * (cacheRect.height() / seatTable.getMatrixHeight()) + areaStrokeWidth / 2);
+        srcRect.bottom = (int) (backgroundCoordinate.getY() + srcRect.bottom * (cacheRect.height() / seatTable.getMatrixHeight()) - areaStrokeWidth / 2);
 
         //绘制显示区域
         paint.setColor(areaColor);
         paint.setStyle(Paint.Style.STROKE);
-        canvas.drawRect(outputSrcRect, paint);
+        canvas.drawRect(srcRect, paint);
     }
 
     protected Bitmap drawBackgroundToCache(Canvas canvas, SimpleRectangleOutput output, SeatTable seatTable){

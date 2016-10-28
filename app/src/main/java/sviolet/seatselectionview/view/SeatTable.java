@@ -158,18 +158,12 @@ public class SeatTable {
      * draw
      */
 
-    private Rect srcRect = new Rect();
-    private Rect dstRect = new Rect();
     private RectF drawDstRect = new RectF();
 
     private SimpleRectangleOutput.Point leftTopPoint = new SimpleRectangleOutput.Point();
     private SimpleRectangleOutput.Point rightBottomPoint = new SimpleRectangleOutput.Point();
 
-    public void draw(Canvas canvas, SimpleRectangleOutput output, SeatImagePool imagePool){
-        //从手势控制器的矩形输出中, 获得当前的源矩阵和目标矩阵
-        //源矩阵表示座位表中, 该显示到界面上的部分, 坐标系为座位表的坐标系
-        //目标矩阵表示界面上绘制图形的部分, 坐标系为显示坐标系
-        output.getSrcDstRect(srcRect, dstRect);
+    public void draw(Canvas canvas, Rect srcRect, Rect dstRect, SimpleRectangleOutput output, SeatImagePool imagePool){
 
         canvas.save();
         //画布根据目标矩形裁剪,保证不会绘制出界

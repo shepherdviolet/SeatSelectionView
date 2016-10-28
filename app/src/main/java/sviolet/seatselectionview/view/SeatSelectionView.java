@@ -2,6 +2,7 @@ package sviolet.seatselectionview.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Looper;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -49,6 +50,10 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
 
     //选座监听器
     private SeatSelectionListener listener;
+
+    //优化性能
+    private Rect srcRect = new Rect();
+    private Rect dstRect = new Rect();
 
     public SeatSelectionView(Context context) {
         super(context);
@@ -198,27 +203,32 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                 return;
             }
 
+            //从手势控制器的矩形输出中, 获得当前的源矩阵和目标矩阵
+            //源矩阵表示座位表中, 该显示到界面上的部分, 坐标系为座位表的坐标系
+            //目标矩阵表示界面上绘制图形的部分, 坐标系为显示坐标系
+            output.getSrcDstRect(srcRect, dstRect);
+
             //绘制中线
             if (midLine != null && midLine.isUnderSeatLayer()){
-                midLine.draw(canvas, output, seatTable);
+                midLine.draw(canvas, srcRect, dstRect, output, seatTable);
             }
 
             //绘制座位
-            seatTable.draw(canvas, output, imagePool);
+            seatTable.draw(canvas, srcRect, dstRect, output, imagePool);
 
             //绘制中线
             if (midLine != null && !midLine.isUnderSeatLayer()){
-                midLine.draw(canvas, output, seatTable);
+                midLine.draw(canvas, srcRect, dstRect, output, seatTable);
             }
 
             //绘制行标识
             if (rowBar != null){
-                rowBar.draw(canvas, output, seatTable);
+                rowBar.draw(canvas, srcRect, dstRect, output, seatTable);
             }
 
             //绘制屏幕
             if (screenBar != null){
-                screenBar.draw(canvas, output, seatTable);
+                screenBar.draw(canvas, srcRect, dstRect, output, seatTable);
             }
 
             boolean isActive = output.isActive();
@@ -231,7 +241,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                     handler.removeMessages(MyHandler.HANDLER_SET_OUTLINE_MAP_INVISIBLE);
                     handler.sendEmptyMessageDelayed(MyHandler.HANDLER_SET_OUTLINE_MAP_INVISIBLE, outlineDelay);
                 }
-                outlineMap.draw(canvas, output, seatTable);
+                outlineMap.draw(canvas, srcRect, dstRect, output, seatTable);
             }
 
             //必须:继续刷新
