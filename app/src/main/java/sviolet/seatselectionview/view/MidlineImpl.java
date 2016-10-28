@@ -19,19 +19,17 @@ import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
 public class MidLineImpl implements MidLine {
 
     private Paint paint;
-    private Path path = new Path();
 
+    private Path path = new Path();
     private SimpleRectangleOutput.Point point = new SimpleRectangleOutput.Point();
 
-    public MidLineImpl() {
+    public MidLineImpl(float width, int color, float[] dashEffect) {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        PathEffect effects = new DashPathEffect(new float[]{10, 10, 10, 10}, 1);
+        PathEffect effects = new DashPathEffect(dashEffect, 0);
         paint.setPathEffect(effects);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.RED);
-        paint.setStrokeWidth(5);
-
-
+        paint.setColor(color);
+        paint.setStrokeWidth(width);
     }
 
     @Override
@@ -43,7 +41,7 @@ public class MidLineImpl implements MidLine {
 
         //路径
         path.reset();
-        path.moveTo((float) point.getX(), 0);
+        path.moveTo((float)point.getX(), 0);
         path.lineTo((float)point.getX(), canvas.getHeight());
 
         canvas.drawPath(path, paint);

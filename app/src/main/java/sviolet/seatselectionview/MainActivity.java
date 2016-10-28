@@ -280,7 +280,8 @@ public class MainActivity extends TAppCompatActivity {
         //配置概要图显示时间
         seatSelectionView.setOutlineDelay(1000);
         //配置中线
-        seatSelectionView.setMidLine(new MidLineImpl());
+        float midLineInterval = MeasureUtils.dp2px(getApplicationContext(), 10);
+        seatSelectionView.setMidLine(new MidLineImpl(MeasureUtils.dp2px(getApplicationContext(), 2), 0xFFD0D0D0, new float[]{midLineInterval, midLineInterval}));
 
         //配置座位各种状态的图片
         SeatImagePoolImpl imagePool = new SeatImagePoolImpl();
