@@ -31,7 +31,16 @@ public class ScreenBarImpl implements ScreenBar {
     private SimpleRectangleOutput.Point leftPoint = new SimpleRectangleOutput.Point();
     private SimpleRectangleOutput.Point rightPoint = new SimpleRectangleOutput.Point();
 
-    public ScreenBarImpl(int backgroundColor, int textColor, float barHeight, float screenWidthPercent, float trapezoidFactor, String text, float textSize) {
+    /**
+     * @param screenWidthPercent 屏幕占影厅宽度的比例
+     * @param barHeight 屏幕条高度
+     * @param trapezoidFactor 屏幕梯型梯度因子
+     * @param backgroundColor 背景色
+     * @param textColor 字体颜色
+     * @param text 屏幕名称
+     * @param textSize 字体大小
+     */
+    public ScreenBarImpl(float screenWidthPercent, float barHeight, float trapezoidFactor, int backgroundColor, int textColor, String text, float textSize) {
         this.backgroundColor = backgroundColor;
         this.textColor = textColor;
         this.barHeight = barHeight;

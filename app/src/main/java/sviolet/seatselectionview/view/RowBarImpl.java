@@ -32,7 +32,15 @@ public class RowBarImpl implements RowBar {
     private float textAscentDescentHeight;
     private Paint.FontMetrics fontMetrics;
 
-    public RowBarImpl(int backgroundColor, int textColor, int textSize, float leftPadding, float barWidth) {
+    /**
+     *
+     * @param barWidth 宽度
+     * @param leftPadding 左边距
+     * @param backgroundColor 背景色
+     * @param textColor 字体颜色
+     * @param textSize 字体大小
+     */
+    public RowBarImpl(float barWidth, float leftPadding, int backgroundColor, int textColor, int textSize) {
 
         this.backgroundColor = backgroundColor;
         this.textColor = textColor;

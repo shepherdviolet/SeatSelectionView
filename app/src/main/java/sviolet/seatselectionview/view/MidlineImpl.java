@@ -1,7 +1,6 @@
 package sviolet.seatselectionview.view;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -18,12 +17,23 @@ import sviolet.turquoise.uix.viewgesturectrl.output.SimpleRectangleOutput;
 
 public class MidLineImpl implements MidLine {
 
+    private boolean isUnderSeatLayer;
+
     private Paint paint;
 
     private Path path = new Path();
     private SimpleRectangleOutput.Point point = new SimpleRectangleOutput.Point();
 
-    public MidLineImpl(float width, int color, float[] dashEffect) {
+    /**
+     * @param width 中线宽度
+     * @param color 中线颜色
+     * @param isUnderSeatLayer 中线是否绘制在座位层下方
+     * @param dashEffect 中线效果
+     */
+    public MidLineImpl(float width, int color, boolean isUnderSeatLayer, float[] dashEffect) {
+
+        this.isUnderSeatLayer = isUnderSeatLayer;
+
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         PathEffect effects = new DashPathEffect(dashEffect, 0);
         paint.setPathEffect(effects);
@@ -49,7 +59,7 @@ public class MidLineImpl implements MidLine {
 
     @Override
     public boolean isUnderSeatLayer() {
-        return false;
+        return isUnderSeatLayer;
     }
 
 }

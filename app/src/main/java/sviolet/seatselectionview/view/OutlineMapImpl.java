@@ -38,6 +38,15 @@ public class OutlineMapImpl implements OutlineMap {
     private Rect seatRect = new Rect();//座位矩形
     private Rect cacheRect = new Rect();//cache缓存的矩形
 
+    /**
+     * @param outlineWidth 概要宽度
+     * @param backgroundColor 概要背景色
+     * @param availableColor 可选座位颜色
+     * @param unavailableColor 不可选座位颜色
+     * @param selectedColor 选中座位颜色
+     * @param areaColor 显示区域颜色
+     * @param areaStrokeWidth 显示区域画笔宽度
+     */
     public OutlineMapImpl(float outlineWidth, int backgroundColor, int availableColor, int unavailableColor, int selectedColor, int areaColor, float areaStrokeWidth) {
         this.outlineWidth = outlineWidth;
         this.backgroundColor = backgroundColor;

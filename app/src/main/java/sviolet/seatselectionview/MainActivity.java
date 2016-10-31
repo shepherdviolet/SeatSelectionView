@@ -272,15 +272,15 @@ public class MainActivity extends TAppCompatActivity {
         //配置座位数据
         seatSelectionView.setData(seatTable);
         //配置行标记
-        seatSelectionView.setRowBar(new RowBarImpl(0x80000000, 0xFFF0F0F0, MeasureUtils.dp2px(getApplicationContext(), 12), 10, MeasureUtils.dp2px(getApplicationContext(), 18)));
+        seatSelectionView.setRowBar(new RowBarImpl(MeasureUtils.dp2px(getApplicationContext(), 18), 10, 0x80000000, 0xFFF0F0F0, MeasureUtils.dp2px(getApplicationContext(), 12)));
         //配置屏幕标记
-        seatSelectionView.setScreenBar(new ScreenBarImpl(0xFFC0C0C0, 0xFF505050, MeasureUtils.dp2px(getApplicationContext(), 25), 0.5f, 0.05f, "七号厅银幕", MeasureUtils.dp2px(getApplicationContext(), 16)));
+        seatSelectionView.setScreenBar(new ScreenBarImpl(0.5f, MeasureUtils.dp2px(getApplicationContext(), 25), 0.05f, 0xFFC0C0C0, 0xFF505050, "七号厅银幕", MeasureUtils.dp2px(getApplicationContext(), 16)));
         //配置概要图
         seatSelectionView.setOutlineMap(new OutlineMapImpl(MeasureUtils.getScreenWidth(getApplicationContext()) * 2 / 5, 0x70000000, 0xFFFAFAFA, 0xFFFF5050, 0xFF20FF20, 0xC0F0F020, MeasureUtils.dp2px(getApplicationContext(), 1f)));
         //配置概要图显示时间
         seatSelectionView.setOutlineDelay(1000);
         //配置中线
-        seatSelectionView.setMidLine(new MidLineImpl(MeasureUtils.dp2px(getApplicationContext(), 2), 0xFFD0D0D0, new float[]{MeasureUtils.dp2px(getApplicationContext(), 2), MeasureUtils.dp2px(getApplicationContext(), 5)}));
+        seatSelectionView.setMidLine(new MidLineImpl(MeasureUtils.dp2px(getApplicationContext(), 2), 0xFFD0D0D0, false, new float[]{MeasureUtils.dp2px(getApplicationContext(), 2), MeasureUtils.dp2px(getApplicationContext(), 5)}));
 
         //配置座位各种状态的图片
         SeatImagePoolImpl imagePool = new SeatImagePoolImpl();

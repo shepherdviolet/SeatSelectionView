@@ -1,6 +1,8 @@
 package sviolet.seatselectionview.parser;
 
 /**
+ * 座位数据解析异常
+ *
  * Created by S.Violet on 2016/10/24.
  */
 
