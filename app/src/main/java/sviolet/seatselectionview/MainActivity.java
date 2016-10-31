@@ -33,8 +33,8 @@ public class MainActivity extends TAppCompatActivity {
         super.onCreate(savedInstanceState);
 
 //        initView(initSeatTable1());
-        initView(initSeatTable2());
-//        initView(initSeatTable3());
+//        initView(initSeatTable2());
+        initView(initSeatTable3());
 
     }
 
@@ -272,11 +272,11 @@ public class MainActivity extends TAppCompatActivity {
         //配置座位数据
         seatSelectionView.setData(seatTable);
         //配置行标记
-        seatSelectionView.setRowBar(new RowBarImpl(0x80000000, 0xFFF0F0F0, MeasureUtils.dp2px(getApplicationContext(), 16), 10, MeasureUtils.dp2px(getApplicationContext(), 22)));
+        seatSelectionView.setRowBar(new RowBarImpl(0x80000000, 0xFFF0F0F0, MeasureUtils.dp2px(getApplicationContext(), 12), 10, MeasureUtils.dp2px(getApplicationContext(), 18)));
         //配置屏幕标记
-        seatSelectionView.setScreenBar(new ScreenBarImpl(0xFFA0A0A0, 0xFFFFFFFF, MeasureUtils.dp2px(getApplicationContext(), 22), 0.5f, 0.02f, "大屏幕啊啊啊啊", MeasureUtils.dp2px(getApplicationContext(), 16)));
+        seatSelectionView.setScreenBar(new ScreenBarImpl(0xFFC0C0C0, 0xFF505050, MeasureUtils.dp2px(getApplicationContext(), 25), 0.5f, 0.05f, "七号厅银幕", MeasureUtils.dp2px(getApplicationContext(), 16)));
         //配置概要图
-        seatSelectionView.setOutlineMap(new OutlineMapImpl(MeasureUtils.getScreenWidth(getApplicationContext()) * 2 / 5, 0x80000000, 0xFFFAFAFA, 0xFFFF8080, 0xFF80FF80, 0xE0FF0000, MeasureUtils.dp2px(getApplicationContext(), 1)));
+        seatSelectionView.setOutlineMap(new OutlineMapImpl(MeasureUtils.getScreenWidth(getApplicationContext()) * 2 / 5, 0x70000000, 0xFFFAFAFA, 0xFFFF5050, 0xFF20FF20, 0xC0F0F020, MeasureUtils.dp2px(getApplicationContext(), 1f)));
         //配置概要图显示时间
         seatSelectionView.setOutlineDelay(1000);
         //配置中线
