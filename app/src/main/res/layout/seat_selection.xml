@@ -7,106 +7,114 @@
     android:background="#F0F0F0"
     tools:context="sviolet.seatselectionview.SeatSelectionActivity">
 
-    <TextView
-        android:id="@+id/seat_selection_cinema_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="3dp"
-        android:textSize="18sp"
-        android:textColor="#505050"
-        android:text="测试专用电影城 (宁波店)"/>
-
-    <TextView
-        android:id="@+id/seat_selection_session"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="0dp"
-        android:paddingBottom="10dp"
-        android:textSize="14sp"
-        android:textColor="#F05050"
-        android:text="今天 10-31 18:35 (英文3D)"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:background="#D0D0D0"/>
-    
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/seat_available"
-            android:scaleType="fitXY"/>
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/seat_selection_cinema_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
+            android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:paddingStart="5dp"
+            android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:textSize="16sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="3dp"
+            android:textSize="18sp"
             android:textColor="#505050"
-            android:text="可选"/>
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/seat_unavailable"
-            android:scaleType="fitXY"/>
+            android:text="测试专用电影城 (宁波店)"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/seat_selection_session"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
+            android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:paddingStart="5dp"
+            android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:textSize="16sp"
-            android:textColor="#505050"
-            android:text="已售"/>
+            android:paddingTop="0dp"
+            android:paddingBottom="10dp"
+            android:textSize="14sp"
+            android:textColor="#F05050"
+            android:text="今天 10-31 18:35 (英文3D)"/>
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/seat_selected"
-            android:scaleType="fitXY"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="#D0D0D0"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
-            android:paddingRight="20dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="20dp"
-            android:textSize="16sp"
-            android:textColor="#505050"
-            android:text="已选"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/seat_available"
+                android:scaleType="fitXY"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="20dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="20dp"
+                android:textSize="16sp"
+                android:textColor="#505050"
+                android:text="可选"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/seat_unavailable"
+                android:scaleType="fitXY"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="20dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="20dp"
+                android:textSize="16sp"
+                android:textColor="#505050"
+                android:text="已售"/>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/seat_selected"
+                android:scaleType="fitXY"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingRight="20dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="20dp"
+                android:textSize="16sp"
+                android:textColor="#505050"
+                android:text="已选"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#D0D0D0"/>
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#D0D0D0"/>
 
     <sviolet.seatselectionview.view.SeatSelectionView
         android:id="@+id/seat_selection_selection_view"
@@ -267,8 +275,6 @@
                 android:text="确认座位"/>
 
         </LinearLayout>
-
-
 
     </LinearLayout>
 
