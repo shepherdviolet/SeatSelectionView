@@ -17,6 +17,15 @@ import sviolet.turquoise.utilx.tlogger.TLogger;
 
 /**
  *
+ * <p>XML中使用SeatSelectionView:</p>
+ * <pre>{@code
+ *     <sviolet.seatselectionview.view.SeatSelectionView
+ *          android:id="@+id/seat_selection_selection_view"
+ *          android:layout_width="match_parent"
+ *          android:layout_height="match_parent"
+ *          android:clickable="true" />
+ * }</pre>
+ *
  * Created by S.Violet on 2016/9/21.
  */
 
@@ -34,7 +43,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
     //座位图片池
     private SeatImagePool imagePool;
     //背景色
-    private int backgroundColor = 0xFFF7F7F7;
+    private int backgroundColor = 0xFFF0F0F0;
 
     //座位行标识
     private RowBar rowBar;
@@ -50,6 +59,9 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
 
     //选座监听器
     private SeatSelectionListener listener;
+
+    //控件尺寸是否变动
+    private boolean isSizeChanged = false;
 
     //优化性能
     private Rect srcRect = new Rect();
@@ -180,6 +192,12 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
     }
 
     @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        isSizeChanged = true;
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
         //接收触摸事件
@@ -191,6 +209,15 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
     protected void onDraw(Canvas canvas) {
 
         canvas.drawColor(backgroundColor);
+
+        if (output == null){
+            return;
+        }
+
+        if (isSizeChanged){
+            isSizeChanged = false;
+            output.resetDisplayDimension(getWidth(), getHeight());
+        }
 
         if (seatTable != null){
             if (imagePool == null){
@@ -287,7 +314,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
         this.seatTable = seatTable;
 
         if (output != null) {
-            output.reset(seatTable.getMatrixWidth(), seatTable.getMatrixHeight(), getWidth(), getHeight(), SimpleRectangleOutput.AUTO_MAGNIFICATION_LIMIT, SimpleRectangleOutput.InitScaleType.FIT_TOP);
+            output.init(seatTable.getMatrixWidth(), seatTable.getMatrixHeight(), getWidth(), getHeight(), SimpleRectangleOutput.AUTO_MAGNIFICATION_LIMIT, SimpleRectangleOutput.InitScaleType.FIT_TOP);
             output.manualZoom(getWidth() / 2, 0, (output.getMaxZoomMagnification() - 1) / 3 + 1, 0);
             postInvalidate();
         }

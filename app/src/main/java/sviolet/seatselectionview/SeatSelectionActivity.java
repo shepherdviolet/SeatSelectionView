@@ -1,6 +1,10 @@
 package sviolet.seatselectionview;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 
 import sviolet.seatselectionview.parser.SeatDataParseException;
 import sviolet.seatselectionview.parser.SimpleSeatDataParser;
@@ -20,11 +24,17 @@ import sviolet.turquoise.enhance.app.annotation.inject.ResourceId;
 import sviolet.turquoise.util.common.BitmapUtils;
 import sviolet.turquoise.util.droid.MeasureUtils;
 
-@ResourceId(R.layout.activity_main)
-public class MainActivity extends TAppCompatActivity {
+@ResourceId(R.layout.seat_selection)
+public class SeatSelectionActivity extends TAppCompatActivity {
 
-    @ResourceId(R.id.seat_selection_view)
+    @ResourceId(R.id.seat_selection_selection_view)
     private SeatSelectionView seatSelectionView;
+    @ResourceId(R.id.seat_selection_bottom_bar)
+    private LinearLayout bottomBar;
+
+    private boolean isBottomBarShown = false;
+    private Animation bottomBarInAnimation;
+    private Animation bottomBarOutAnimation;
 
     private int selectedCount = 0;
 
@@ -32,9 +42,12 @@ public class MainActivity extends TAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        bottomBarInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.seat_selection_bottom_bar_in);//加载
+        bottomBarOutAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.seat_selection_bottom_bar_out);//加载
+
 //        initView(initSeatTable1());
-//        initView(initSeatTable2());
-        initView(initSeatTable3());
+        initView(initSeatTable2());
+//        initView(initSeatTable3());
 
     }
 
@@ -271,6 +284,8 @@ public class MainActivity extends TAppCompatActivity {
 
         //配置座位数据
         seatSelectionView.setData(seatTable);
+        //设置背景色
+        seatSelectionView.setBackground(0xFFF0F0F0);
         //配置行标记
         seatSelectionView.setRowBar(new RowBarImpl(MeasureUtils.dp2px(getApplicationContext(), 18), 10, 0x80000000, 0xFFF0F0F0, MeasureUtils.dp2px(getApplicationContext(), 12)));
         //配置屏幕标记
@@ -280,7 +295,7 @@ public class MainActivity extends TAppCompatActivity {
         //配置概要图显示时间
         seatSelectionView.setOutlineDelay(1000);
         //配置中线
-        seatSelectionView.setMidLine(new MidLineImpl(MeasureUtils.dp2px(getApplicationContext(), 2), 0xFFD0D0D0, false, new float[]{MeasureUtils.dp2px(getApplicationContext(), 2), MeasureUtils.dp2px(getApplicationContext(), 5)}));
+        seatSelectionView.setMidLine(new MidLineImpl(MeasureUtils.dp2px(getApplicationContext(), 2), 0xFFC0C0C0, true, new float[]{MeasureUtils.dp2px(getApplicationContext(), 2), MeasureUtils.dp2px(getApplicationContext(), 5)}));
 
         //配置座位各种状态的图片
         SeatImagePoolImpl imagePool = new SeatImagePoolImpl();
@@ -312,6 +327,12 @@ public class MainActivity extends TAppCompatActivity {
                 }
                 selectedCount += seatNum;
 
+                if (selectedCount > 0 && !isBottomBarShown){
+                    isBottomBarShown = true;
+                    bottomBar.startAnimation(bottomBarInAnimation);
+                    bottomBar.setVisibility(View.VISIBLE);
+                }
+
                 return true;
             }
 
@@ -329,6 +350,13 @@ public class MainActivity extends TAppCompatActivity {
                         break;
                 }
                 selectedCount -= seatNum;
+
+                if (selectedCount <= 0 && isBottomBarShown){
+                    isBottomBarShown = false;
+                    bottomBar.startAnimation(bottomBarOutAnimation);
+                    bottomBar.setVisibility(View.GONE);
+                }
+
                 return true;
             }
 
