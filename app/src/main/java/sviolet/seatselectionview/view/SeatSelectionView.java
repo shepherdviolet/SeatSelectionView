@@ -60,8 +60,12 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
     //选座监听器
     private SeatSelectionListener listener;
 
-    //控件尺寸是否变动
-    private boolean isSizeChanged = false;
+    //控件尺寸变化控制
+    private boolean isMeasured = false;//进行了一次measure
+    private int viewWidth;//记录上次控件尺寸
+    private int viewHeight;//记录上次控件尺寸
+    private double lastClickPointX = 0;//上次点击点
+    private double lastClickPointY = 0;//上次点击点
 
     //优化性能
     private Rect srcRect = new Rect();
@@ -112,6 +116,11 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                 if (seatTable == null){
                     return;
                 }
+
+                //记录点击坐标
+                lastClickPointX = actualX;
+                lastClickPointY = actualY;
+                //座位太小时, 先放大
                 if (output.getCurrZoomMagnification() < output.getMaxZoomMagnification() && output.getCurrZoomMagnification() < (output.getMaxZoomMagnification() - 1) / 4 + 1){
                     output.manualZoom(displayX, displayY, (output.getMaxZoomMagnification() - 1) / 2 + 1, 500);
                     return;
@@ -194,7 +203,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        isSizeChanged = true;
+        isMeasured = true;
     }
 
     @Override
@@ -210,71 +219,80 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
 
         canvas.drawColor(backgroundColor);
 
-        if (output == null){
+        if (output == null || seatTable == null) {
             return;
         }
 
-        if (isSizeChanged){
-            isSizeChanged = false;
-            output.resetDisplayDimension(getWidth(), getHeight());
+        if (imagePool == null) {
+            logger.e("imagePool is null, can not draw seats");
+            return;
         }
 
-        if (seatTable != null){
-            if (imagePool == null){
-                logger.e("imagePool is null, can not draw seats");
-                return;
-            }
+        if (seatTable.getMatrixWidth() <= 0 || seatTable.getMatrixHeight() <= 0) {
+            logger.w("matrixWidth/matrixHeight of seatTable <= 0");
+            return;
+        }
 
-            if (seatTable.getMatrixWidth() <= 0 || seatTable.getMatrixHeight() <= 0){
-                logger.w("matrixWidth/matrixHeight of seatTable <= 0");
-                return;
-            }
-
-            //从手势控制器的矩形输出中, 获得当前的源矩阵和目标矩阵
-            //源矩阵表示座位表中, 该显示到界面上的部分, 坐标系为座位表的坐标系
-            //目标矩阵表示界面上绘制图形的部分, 坐标系为显示坐标系
-            output.getSrcDstRect(srcRect, dstRect);
-
-            //绘制中线
-            if (midLine != null && midLine.isUnderSeatLayer()){
-                midLine.draw(canvas, srcRect, dstRect, output, seatTable);
-            }
-
-            //绘制座位
-            seatTable.draw(canvas, srcRect, dstRect, output, imagePool);
-
-            //绘制中线
-            if (midLine != null && !midLine.isUnderSeatLayer()){
-                midLine.draw(canvas, srcRect, dstRect, output, seatTable);
-            }
-
-            //绘制行标识
-            if (rowBar != null){
-                rowBar.draw(canvas, srcRect, dstRect, output, seatTable);
-            }
-
-            //绘制屏幕
-            if (screenBar != null){
-                screenBar.draw(canvas, srcRect, dstRect, output, seatTable);
-            }
-
-            boolean isActive = output.isActive();
-
-            //绘制概览图
-            if (outlineMap != null){
-                if (isActive){
-                    outlineMap.setVisible(true);
-                } else if (outlineMap.isVisible()){
-                    handler.removeMessages(MyHandler.HANDLER_SET_OUTLINE_MAP_INVISIBLE);
-                    handler.sendEmptyMessageDelayed(MyHandler.HANDLER_SET_OUTLINE_MAP_INVISIBLE, outlineDelay);
+        //控件发生Measure
+        if (isMeasured) {
+            isMeasured = false;
+            //判断控件尺寸是否变化
+            if(viewWidth != 0 && viewHeight != 0){
+                if (viewWidth != getWidth() || viewHeight != getHeight()){
+                    //重置显示矩形尺寸
+                    output.resetDisplayDimension(getWidth(), getHeight());
+                    //保持最后触点位置可见
+                    output.manualMoveToShow(lastClickPointX, lastClickPointY, seatTable.getSeatWidth() / 2, 300);
                 }
-                outlineMap.draw(canvas, srcRect, dstRect, output, seatTable);
             }
-
-            //必须:继续刷新
-            if (isActive)
-                postInvalidate();
+            viewWidth = getWidth();
+            viewHeight = getHeight();
         }
+
+        //从手势控制器的矩形输出中, 获得当前的源矩阵和目标矩阵
+        //源矩阵表示座位表中, 该显示到界面上的部分, 坐标系为座位表的坐标系
+        //目标矩阵表示界面上绘制图形的部分, 坐标系为显示坐标系
+        output.getSrcDstRect(srcRect, dstRect);
+
+        //绘制中线
+        if (midLine != null && midLine.isUnderSeatLayer()) {
+            midLine.draw(canvas, srcRect, dstRect, output, seatTable);
+        }
+
+        //绘制座位
+        seatTable.draw(canvas, srcRect, dstRect, output, imagePool);
+
+        //绘制中线
+        if (midLine != null && !midLine.isUnderSeatLayer()) {
+            midLine.draw(canvas, srcRect, dstRect, output, seatTable);
+        }
+
+        //绘制行标识
+        if (rowBar != null) {
+            rowBar.draw(canvas, srcRect, dstRect, output, seatTable);
+        }
+
+        //绘制屏幕
+        if (screenBar != null) {
+            screenBar.draw(canvas, srcRect, dstRect, output, seatTable);
+        }
+
+        boolean isActive = output.isActive();
+
+        //绘制概览图
+        if (outlineMap != null) {
+            if (isActive) {
+                outlineMap.setVisible(true);
+            } else if (outlineMap.isVisible()) {
+                handler.removeMessages(MyHandler.HANDLER_SET_OUTLINE_MAP_INVISIBLE);
+                handler.sendEmptyMessageDelayed(MyHandler.HANDLER_SET_OUTLINE_MAP_INVISIBLE, outlineDelay);
+            }
+            outlineMap.draw(canvas, srcRect, dstRect, output, seatTable);
+        }
+
+        //必须:继续刷新
+        if (isActive)
+            postInvalidate();
 
     }
 
