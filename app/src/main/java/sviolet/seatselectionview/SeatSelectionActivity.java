@@ -28,27 +28,44 @@ import sviolet.turquoise.util.droid.MeasureUtils;
 public class SeatSelectionActivity extends TAppCompatActivity {
 
     @ResourceId(R.id.seat_selection_selection_view)
-    private SeatSelectionView seatSelectionView;
+    private SeatSelectionView seatSelectionView;//选座控件
     @ResourceId(R.id.seat_selection_bottom_bar)
-    private LinearLayout bottomBar;
+    private LinearLayout bottomBar;//底部栏
 
     private boolean isBottomBarShown = false;
-    private Animation bottomBarInAnimation;
-    private Animation bottomBarOutAnimation;
 
-    private int selectedCount = 0;
+    private Animation bottomBarInAnimation;//底部栏动画
+    private Animation bottomBarOutAnimation;//底部栏动画
+
+    private SeatImagePoolImpl imagePool;//图片池
+
+    private int selectedCount = 0;//座位计数
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        bottomBarInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.seat_selection_bottom_bar_in);//加载
-        bottomBarOutAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.seat_selection_bottom_bar_out);//加载
+        initAnim();
 
 //        initView(initSeatTable1());
         initView(initSeatTable2());
 //        initView(initSeatTable3());
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //销毁图片池(内含Bitmap)
+        imagePool.destroy();
+    }
+
+    /**
+     * 初始化动画
+     */
+    private void initAnim() {
+        bottomBarInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.seat_selection_bottom_bar_in);//加载
+        bottomBarOutAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.seat_selection_bottom_bar_out);//加载
     }
 
     /**
@@ -298,7 +315,7 @@ public class SeatSelectionActivity extends TAppCompatActivity {
         seatSelectionView.setMidLine(new MidLineImpl(MeasureUtils.dp2px(getApplicationContext(), 2), 0xFFC0C0C0, true, new float[]{MeasureUtils.dp2px(getApplicationContext(), 2), MeasureUtils.dp2px(getApplicationContext(), 5)}));
 
         //配置座位各种状态的图片
-        SeatImagePoolImpl imagePool = new SeatImagePoolImpl();
+        imagePool = new SeatImagePoolImpl();
         imagePool.setImage(SeatType.SINGLE, SeatState.AVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_available));
         imagePool.setImage(SeatType.SINGLE, SeatState.UNAVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_unavailable));
         imagePool.setImage(SeatType.SINGLE, SeatState.SELECTED, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_selected));
