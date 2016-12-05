@@ -58,6 +58,9 @@ public class SeatImagePoolImpl implements SeatImagePool {
 
     }
 
+    /**
+     * 重要
+     */
     @Override
     public void destroy() {
         for (Map<SeatState, Bitmap> map : images.values()){

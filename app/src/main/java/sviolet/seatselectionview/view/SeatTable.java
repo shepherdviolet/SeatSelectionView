@@ -230,6 +230,9 @@ public class SeatTable {
      * click
      */
 
+    /**
+     * 根据坐标点, 获得坐标点上的座位
+     */
     public Seat getSeatByCoordinate(float x, float y){
         int row = (int) Math.floor((y - seatHeight * padding) / seatHeight);
         int column = (int) Math.floor((x - seatWidth * padding) / seatWidth);

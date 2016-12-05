@@ -135,9 +135,11 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                     callbackInvalidAreaClick();
                     return;
                 }
+                //如果是占位类型的作为, 则获取他的主座位
                 if (seat.getType() == SeatType.MULTI_SEAT_PLACEHOLDER){
                     seat = seat.getHost();
                 }
+                //若座位为空, 或主座位还是占位类型的, 则打印错误日志
                 if(seat == null || seat.getType() == SeatType.MULTI_SEAT_PLACEHOLDER){
                     logger.e("[SeatSelectionView] illegal seatTable data, the host of placeholder is null or another placeholder, host:" + seat);
                     callbackInvalidAreaClick();
@@ -217,6 +219,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
     @Override
     protected void onDraw(Canvas canvas) {
 
+        //绘制背景色
         canvas.drawColor(backgroundColor);
 
         if (output == null || seatTable == null) {
@@ -245,6 +248,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                     output.manualMoveToShow(lastClickPointX, lastClickPointY, seatTable.getSeatWidth() / 2, 300);
                 }
             }
+            //记录控件宽高
             viewWidth = getWidth();
             viewHeight = getHeight();
         }
@@ -282,11 +286,14 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
         //绘制概览图
         if (outlineMap != null) {
             if (isActive) {
+                //显示概览图
                 outlineMap.setVisible(true);
             } else if (outlineMap.isVisible()) {
+                //一定时间后隐藏概览图
                 handler.removeMessages(MyHandler.HANDLER_SET_OUTLINE_MAP_INVISIBLE);
                 handler.sendEmptyMessageDelayed(MyHandler.HANDLER_SET_OUTLINE_MAP_INVISIBLE, outlineDelay);
             }
+            //绘制概览图
             outlineMap.draw(canvas, srcRect, dstRect, output, seatTable);
         }
 
@@ -332,6 +339,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
         this.seatTable = seatTable;
 
         if (output != null) {
+            //初始化输出矩形
             output.init(seatTable.getMatrixWidth(), seatTable.getMatrixHeight(), getWidth(), getHeight(), SimpleRectangleOutput.AUTO_MAGNIFICATION_LIMIT, SimpleRectangleOutput.InitScaleType.FIT_TOP);
             output.manualZoom(getWidth() / 2, 0, (output.getMaxZoomMagnification() - 1) / 3 + 1, 0);
             postInvalidate();

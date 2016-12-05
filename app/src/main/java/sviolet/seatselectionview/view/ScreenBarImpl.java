@@ -94,18 +94,22 @@ public class ScreenBarImpl implements ScreenBar {
             bottomRight = canvas.getWidth();
         }
 
+        //背景路径
         backgroundPath.reset();
         backgroundPath.moveTo(left, 0);
         backgroundPath.lineTo(right, 0);
         backgroundPath.lineTo(bottomRight, barHeight);
         backgroundPath.lineTo(bottomLeft, barHeight);
 
+        //绘制背景
         paint.setColor(backgroundColor);
         canvas.drawPath(backgroundPath, paint);
 
+        //文字位置
         float baseline = (barHeight - fontMetrics.bottom - fontMetrics.top) / 2;
         float textLeft = (float) (leftPoint.getX() + displayWidth / 2f);
 
+        //绘制文字
         paint.setColor(textColor);
         canvas.drawText(text, textLeft, baseline, paint);
 
