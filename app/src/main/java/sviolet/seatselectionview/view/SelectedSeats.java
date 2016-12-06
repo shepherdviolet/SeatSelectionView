@@ -177,6 +177,7 @@ public class SelectedSeats {
         //刷新seatSelectionView显示
         SeatSelectionView view = seatSelectionView.get();
         if (view != null) {
+            view.refreshOutlineMap();
             view.postInvalidate();
         }
     }

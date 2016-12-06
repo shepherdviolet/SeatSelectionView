@@ -351,6 +351,12 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
         this.outlineDelay = outlineDelay;
     }
 
+    public void refreshOutlineMap(){
+        if (outlineMap != null){
+            outlineMap.outlineChanged();
+        }
+    }
+
     /***************************************************************************************8
      * handler
      */
