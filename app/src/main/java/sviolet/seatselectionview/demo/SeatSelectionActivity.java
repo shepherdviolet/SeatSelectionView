@@ -38,14 +38,9 @@ public class SeatSelectionActivity extends TAppCompatActivity {
     @ResourceId(R.id.seat_selection_bottom_bar_item_container)
     private LinearLayout selectedItemContainer;
 
-    private Animation bottomBarInAnimation;//底部栏动画
-    private Animation bottomBarOutAnimation;//底部栏动画
-
     private SeatImagePoolImpl imagePool;//图片池
 
-    private boolean isBottomBarShown = false;
-    private SelectedSeats selectedSeats;
-
+    private MySelectedSeats selectedSeats;
     private AuditoriumInfo auditoriumInfo;
     private SeatTable seatTable;
 
@@ -54,7 +49,6 @@ public class SeatSelectionActivity extends TAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         initData();
-        initAnim();
         initView();
         initSeatSelectionView(seatTable);
 
@@ -74,16 +68,8 @@ public class SeatSelectionActivity extends TAppCompatActivity {
 //        seatTable = DataEmulate.initSeatTable3(getApplicationContext());
     }
 
-    /**
-     * 初始化动画
-     */
-    private void initAnim() {
-        bottomBarInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.seat_selection_bottom_bar_in);//加载
-        bottomBarOutAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.seat_selection_bottom_bar_out);//加载
-    }
-
     private void initView(){
-        selectedSeats = new SelectedSeats(getApplicationContext(), seatSelectionView, selectedItemContainer, auditoriumInfo.getMaxSeatNum());
+        selectedSeats = new MySelectedSeats(seatSelectionView, auditoriumInfo.getMaxSeatNum(), getApplicationContext(), bottomBar, selectedItemContainer);
 
         cinemaNameView.setText(auditoriumInfo.getCinemaName());
         sessionView.setText(auditoriumInfo.getSession());
@@ -121,39 +107,13 @@ public class SeatSelectionActivity extends TAppCompatActivity {
             @Override
             public boolean onSeatSelect(Seat seat) {
                 //处理座位选择事件
-                boolean result = selectedSeats.onSelect(seat);
-
-                //刷新数据
-                if (result) {
-                    selectedSeats.refreshBottomBarSelectedItems();
-                }
-
-                //显示底边栏
-                if (selectedSeats.getSeatNum() > 0 && !isBottomBarShown){
-                    isBottomBarShown = true;
-                    bottomBar.startAnimation(bottomBarInAnimation);
-                    bottomBar.setVisibility(View.VISIBLE);
-                }
-
-                return result;
+                return selectedSeats.onSelect(seat);
             }
 
             @Override
             public boolean onSeatDeselect(Seat seat) {
                 //处理座位选择事件
-                boolean result = selectedSeats.onDeselect(seat);
-
-                //刷新数据
-                selectedSeats.refreshBottomBarSelectedItems();
-
-                //隐藏底边栏
-                if (selectedSeats.getSeatNum() <= 0 && isBottomBarShown){
-                    isBottomBarShown = false;
-                    bottomBar.startAnimation(bottomBarOutAnimation);
-                    bottomBar.setVisibility(View.GONE);
-                }
-
-                return result;
+                return selectedSeats.onDeselect(seat);
             }
 
             @Override

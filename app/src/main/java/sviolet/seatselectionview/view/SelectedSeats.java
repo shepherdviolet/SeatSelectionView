@@ -1,84 +1,60 @@
-package sviolet.seatselectionview.demo;
+package sviolet.seatselectionview.view;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import sviolet.seatselectionview.R;
-import sviolet.seatselectionview.view.Seat;
-import sviolet.seatselectionview.view.SeatSelectionView;
-import sviolet.seatselectionview.view.SeatState;
-import sviolet.seatselectionview.view.SeatType;
-
 /**
+ * 选中座位控制器
+ *
  * Created by S.Violet on 2016/12/6.
  */
-
 public class SelectedSeats {
 
     private int maxSeatNum;
 
     private List<Seat> seats;
 
-    private SeatSelectionView seatSelectionView;
-    private LinearLayout selectedItemContainer;
-    private List<View> selectedItemViews;
-    private List<TextView> selectedItemTextViews;
+    private WeakReference<SeatSelectionView> seatSelectionView;
 
-    public SelectedSeats(Context context, SeatSelectionView seatSelectionView, LinearLayout selectedItemContainer, int maxSeatNum) {
+    public SelectedSeats(SeatSelectionView seatSelectionView, int maxSeatNum) {
         if (seatSelectionView == null){
             throw new RuntimeException("[SelectedSeats]seatSelectionView is null");
-        }
-        if (selectedItemContainer == null){
-            throw new RuntimeException("[SelectedSeats]selectedItemContainer is null");
         }
         if (maxSeatNum < 0){
             throw new RuntimeException("[SelectedSeats]maxSeatNum must >= 0");
         }
 
-        this.seatSelectionView = seatSelectionView;
-        this.selectedItemContainer = selectedItemContainer;
+        this.seatSelectionView = new WeakReference<>(seatSelectionView);
         this.maxSeatNum = maxSeatNum;
         this.seats = new ArrayList<>(maxSeatNum);
-
-        this.selectedItemViews = new ArrayList<>(maxSeatNum);
-        this.selectedItemTextViews = new ArrayList<>(maxSeatNum);
-
-        //实例化底部栏的选中项View
-        LayoutInflater inflater = LayoutInflater.from(context);
-        for (int i = 0 ; i < maxSeatNum ; i++){
-            View itemView = inflater.inflate(R.layout.seat_selection_bottom_bar_item, null);
-            TextView textView = (TextView) itemView.findViewById(R.id.seat_selection_bottom_bar_item);
-            itemView.setTag(i);
-            itemView.setOnClickListener(onSelectedItemClickListener);
-            selectedItemViews.add(itemView);
-            selectedItemTextViews.add(textView);
-        }
     }
 
+    /**
+     * 用这个方法拦截SeatSelectionListener.onSeatSelect方法
+     */
     public boolean onSelect(Seat seat){
         if (seat == null){
             return true;
         }
         switch (seat.getType()){
             case SINGLE:
+                //数量限制
                 if (getSeatNum() + 1 > maxSeatNum){
                     return false;
                 }
                 seats.add(seat);
                 break;
             case COUPLE:
+                //获取占位类型座位
                 List<Seat> placeHolders = seat.getPlaceholders();
                 int placeHolderNum = placeHolders == null ? 0 : placeHolders.size();
+                //数量限制
                 if (getSeatNum() + 1 + placeHolderNum > maxSeatNum){
                     return false;
                 }
                 seats.add(seat);
+                //加入全部占位类型座位
                 if (placeHolders != null) {
                     seats.addAll(placeHolders);
                 }
@@ -89,10 +65,17 @@ public class SelectedSeats {
         return true;
     }
 
+    /**
+     * 用这个方法拦截SeatSelectionListener.onSeatDeselect方法
+     */
     public boolean onDeselect(Seat seat){
         return removeSeat(seat);
     }
 
+    /**
+     * 从选中座位中移除座位(不改变座位选中状态, 也不刷新SeatSelectionView, 需要改变状态和刷新显示, 请使用
+     * selectSeat方法)
+     */
     public boolean removeSeat(Seat seat){
         if (seat == null){
             return true;
@@ -146,64 +129,56 @@ public class SelectedSeats {
         return seats.size();
     }
 
+    public int getMaxSeatNum(){
+        return maxSeatNum;
+    }
 
     /**
-     * 使得某个座位被选中
+     * 使得某个座位被选中, 改变座位状态, 刷新SeatSelectionView显示, 不从选中座位中移除
      */
     public void selectSeat(Seat seat){
         if (seat == null || seat.getState() == SeatState.UNAVAILABLE){
             return;
         }
+        //获得主座位
         Seat host = null;
         if (seat.getType() == SeatType.MULTI_SEAT_PLACEHOLDER){
             host = seat.getHost();
         }
+        //默认为本身
         if (host == null){
             host = seat;
         }
         host.setState(SeatState.SELECTED);
-        seatSelectionView.postInvalidate();
+        //刷新seatSelectionView显示
+        SeatSelectionView view = seatSelectionView.get();
+        if (view != null) {
+            view.postInvalidate();
+        }
     }
 
     /**
-     * 使得某个座位取消选中
+     * 使得某个座位取消选中, 改变座位状态, 刷新SeatSelectionView显示, 不从选中座位中移除
      */
     public void deselectSeat(Seat seat){
         if (seat == null || seat.getState() == SeatState.UNAVAILABLE){
             return;
         }
+        //获得主座位
         Seat host = null;
         if (seat.getType() == SeatType.MULTI_SEAT_PLACEHOLDER){
             host = seat.getHost();
         }
+        //默认为本身
         if (host == null){
             host = seat;
         }
         host.setState(SeatState.AVAILABLE);
-        seatSelectionView.postInvalidate();
-    }
-
-
-    public void refreshBottomBarSelectedItems(){
-        selectedItemContainer.removeAllViews();
-        if (seats.size() > maxSeatNum){
-            throw new RuntimeException("[SelectedSeats]size of selected seats is larger than max");
-        }
-        for (int i = 0 ; i < seats.size() ; i++){
-            Seat seat = seats.get(i);
-            selectedItemTextViews.get(i).setText(seat.getRowId() + "排" + seat.getColumnId() + "座");
-            selectedItemContainer.addView(selectedItemViews.get(i));
+        //刷新seatSelectionView显示
+        SeatSelectionView view = seatSelectionView.get();
+        if (view != null) {
+            view.postInvalidate();
         }
     }
-
-    private final View.OnClickListener onSelectedItemClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Seat seat = getSeat((int) v.getTag());
-            removeSeat(seat);
-            deselectSeat(seat);
-            refreshBottomBarSelectedItems();
-        }
-    };
 
 }
