@@ -9,6 +9,7 @@ public class AuditoriumInfo {
     private String cinemaName;//影院名
     private String session;//场次
     private String auditoriumName;//影厅名
+    private int maxSeatNum;
 
     public String getCinemaName() {
         return cinemaName;
@@ -32,5 +33,13 @@ public class AuditoriumInfo {
 
     public void setAuditoriumName(String auditoriumName) {
         this.auditoriumName = auditoriumName;
+    }
+
+    public int getMaxSeatNum() {
+        return maxSeatNum;
+    }
+
+    public void setMaxSeatNum(int maxSeatNum) {
+        this.maxSeatNum = maxSeatNum;
     }
 }

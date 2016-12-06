@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="sviolet.seatselectionview.demo.SeatSelectionActivity">
+
+    <TextView
+        android:id="@+id/seat_selection_bottom_bar_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="0dp"
+        android:paddingStart="5dp"
+        android:paddingEnd="0dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:textColor="#808080"
+        android:background="@drawable/seat_selection_bottom_bar_rect"
+        android:drawableRight="@mipmap/cross_60_ss"
+        android:drawableEnd="@mipmap/cross_60_ss"/>
+
+</LinearLayout>

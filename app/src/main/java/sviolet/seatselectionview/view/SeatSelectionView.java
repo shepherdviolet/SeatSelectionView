@@ -351,6 +351,42 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
         this.outlineDelay = outlineDelay;
     }
 
+    /**
+     * 使得某个座位被选中
+     */
+    public void selectSeat(Seat seat){
+        if (seat == null || seat.getState() == SeatState.UNAVAILABLE){
+            return;
+        }
+        Seat host = null;
+        if (seat.getType() == SeatType.MULTI_SEAT_PLACEHOLDER){
+            host = seat.getHost();
+        }
+        if (host == null){
+            host = seat;
+        }
+        host.setState(SeatState.SELECTED);
+        postInvalidate();
+    }
+
+    /**
+     * 使得某个座位取消选中
+     */
+    public void deselectSeat(Seat seat){
+        if (seat == null || seat.getState() == SeatState.UNAVAILABLE){
+            return;
+        }
+        Seat host = null;
+        if (seat.getType() == SeatType.MULTI_SEAT_PLACEHOLDER){
+            host = seat.getHost();
+        }
+        if (host == null){
+            host = seat;
+        }
+        host.setState(SeatState.AVAILABLE);
+        postInvalidate();
+    }
+
     /***************************************************************************************8
      * handler
      */

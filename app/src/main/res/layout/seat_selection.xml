@@ -147,65 +147,25 @@
             android:textColor="#505050"
             android:text="@string/seat_selection_bottom_bar_title"/>
 
-        <LinearLayout
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:orientation="horizontal">
+            android:scrollbarStyle="@null">
 
-            <TextView
+            <!-- 已选座位容器 -->
+            <LinearLayout
+                android:id="@+id/seat_selection_bottom_bar_item_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="0dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="0dp"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textColor="#808080"
-                android:background="@drawable/seat_selection_bottom_bar_rect"
-                android:drawableRight="@mipmap/cross_60_ss"
-                android:text="9排10座"/>
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingStart="10dp"
+                android:paddingRight="10dp"
+                android:paddingEnd="10dp"
+                android:orientation="horizontal"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="0dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="0dp"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textColor="#808080"
-                android:background="@drawable/seat_selection_bottom_bar_rect"
-                android:drawableRight="@mipmap/cross_60_ss"
-                android:text="9排11座"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="0dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="0dp"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textColor="#808080"
-                android:background="@drawable/seat_selection_bottom_bar_rect"
-                android:drawableRight="@mipmap/cross_60_ss"
-                android:text="9排12座"/>
-
-        </LinearLayout>
+        </HorizontalScrollView>
 
         <View
             android:layout_width="match_parent"

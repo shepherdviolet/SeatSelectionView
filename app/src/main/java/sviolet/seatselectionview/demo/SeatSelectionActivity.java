@@ -35,14 +35,16 @@ public class SeatSelectionActivity extends TAppCompatActivity {
     private TextView cinemaNameView;
     @ResourceId(R.id.seat_selection_session)
     private TextView sessionView;
+    @ResourceId(R.id.seat_selection_bottom_bar_item_container)
+    private LinearLayout selectedItemContainer;
 
     private Animation bottomBarInAnimation;//底部栏动画
     private Animation bottomBarOutAnimation;//底部栏动画
 
     private SeatImagePoolImpl imagePool;//图片池
 
-    private int selectedCount = 0;//座位计数
     private boolean isBottomBarShown = false;
+    private SelectedSeats selectedSeats;
 
     private AuditoriumInfo auditoriumInfo;
     private SeatTable seatTable;
@@ -81,6 +83,8 @@ public class SeatSelectionActivity extends TAppCompatActivity {
     }
 
     private void initView(){
+        selectedSeats = new SelectedSeats(getApplicationContext(), seatSelectionView, selectedItemContainer, auditoriumInfo.getMaxSeatNum());
+
         cinemaNameView.setText(auditoriumInfo.getCinemaName());
         sessionView.setText(auditoriumInfo.getSession());
     }
@@ -116,53 +120,40 @@ public class SeatSelectionActivity extends TAppCompatActivity {
         seatSelectionView.setSeatSelectionListener(new SeatSelectionListener() {
             @Override
             public boolean onSeatSelect(Seat seat) {
-                int seatNum = 0;
-                switch (seat.getType()){
-                    case SINGLE:
-                        seatNum = 1;
-                        break;
-                    case COUPLE:
-                        seatNum = 2;
-                        break;
-                    default:
-                        break;
-                }
-                if (selectedCount + seatNum > 4){
-                    return false;
-                }
-                selectedCount += seatNum;
+                //处理座位选择事件
+                boolean result = selectedSeats.onSelect(seat);
 
-                if (selectedCount > 0 && !isBottomBarShown){
+                //刷新数据
+                if (result) {
+                    selectedSeats.refreshBottomBarSelectedItems();
+                }
+
+                //显示底边栏
+                if (selectedSeats.getSeatNum() > 0 && !isBottomBarShown){
                     isBottomBarShown = true;
                     bottomBar.startAnimation(bottomBarInAnimation);
                     bottomBar.setVisibility(View.VISIBLE);
                 }
 
-                return true;
+                return result;
             }
 
             @Override
             public boolean onSeatDeselect(Seat seat) {
-                int seatNum = 0;
-                switch (seat.getType()){
-                    case SINGLE:
-                        seatNum = 1;
-                        break;
-                    case COUPLE:
-                        seatNum = 2;
-                        break;
-                    default:
-                        break;
-                }
-                selectedCount -= seatNum;
+                //处理座位选择事件
+                boolean result = selectedSeats.onDeselect(seat);
 
-                if (selectedCount <= 0 && isBottomBarShown){
+                //刷新数据
+                selectedSeats.refreshBottomBarSelectedItems();
+
+                //隐藏底边栏
+                if (selectedSeats.getSeatNum() <= 0 && isBottomBarShown){
                     isBottomBarShown = false;
                     bottomBar.startAnimation(bottomBarOutAnimation);
                     bottomBar.setVisibility(View.GONE);
                 }
 
-                return true;
+                return result;
             }
 
             @Override
