@@ -245,7 +245,7 @@ public class SeatSelectionView extends View implements ViewCommonUtils.InitListe
                     //重置显示矩形尺寸
                     output.resetDisplayDimension(getWidth(), getHeight());
                     //保持最后触点位置可见
-                    output.manualMoveToShow(lastClickPointX, lastClickPointY, seatTable.getSeatWidth() / 2, 300);
+                    output.manualMoveToShow(lastClickPointX, lastClickPointY, seatTable.getSeatWidth(), 300);
                 }
             }
             //记录控件宽高
