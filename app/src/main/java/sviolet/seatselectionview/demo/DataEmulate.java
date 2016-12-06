@@ -1,80 +1,37 @@
-package sviolet.seatselectionview;
+package sviolet.seatselectionview.demo;
 
-import android.os.Bundle;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
+import android.content.Context;
 
 import sviolet.seatselectionview.parser.SeatDataParseException;
 import sviolet.seatselectionview.parser.SimpleSeatDataParser;
-import sviolet.seatselectionview.view.MidLineImpl;
-import sviolet.seatselectionview.view.OutlineMapImpl;
-import sviolet.seatselectionview.view.RowBarImpl;
-import sviolet.seatselectionview.view.ScreenBarImpl;
 import sviolet.seatselectionview.view.Seat;
-import sviolet.seatselectionview.view.SeatImagePoolImpl;
-import sviolet.seatselectionview.view.SeatSelectionListener;
-import sviolet.seatselectionview.view.SeatSelectionView;
 import sviolet.seatselectionview.view.SeatState;
 import sviolet.seatselectionview.view.SeatTable;
 import sviolet.seatselectionview.view.SeatType;
-import sviolet.turquoise.enhance.app.TAppCompatActivity;
-import sviolet.turquoise.enhance.app.annotation.inject.ResourceId;
-import sviolet.turquoise.util.common.BitmapUtils;
 import sviolet.turquoise.util.droid.MeasureUtils;
 
-@ResourceId(R.layout.seat_selection)
-public class SeatSelectionActivity extends TAppCompatActivity {
+/**
+ * 座位等数据生成模拟
+ *
+ * Created by S.Violet on 2016/12/6.
+ */
+public class DataEmulate {
 
-    @ResourceId(R.id.seat_selection_selection_view)
-    private SeatSelectionView seatSelectionView;//选座控件
-    @ResourceId(R.id.seat_selection_bottom_bar)
-    private LinearLayout bottomBar;//底部栏
-
-    private boolean isBottomBarShown = false;
-
-    private Animation bottomBarInAnimation;//底部栏动画
-    private Animation bottomBarOutAnimation;//底部栏动画
-
-    private SeatImagePoolImpl imagePool;//图片池
-
-    private int selectedCount = 0;//座位计数
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        initAnim();
-
-//        initView(initSeatTable1());
-        initView(initSeatTable2());
-//        initView(initSeatTable3());
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //销毁图片池(内含Bitmap)
-        imagePool.destroy();
-    }
-
-    /**
-     * 初始化动画
-     */
-    private void initAnim() {
-        bottomBarInAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.seat_selection_bottom_bar_in);//加载
-        bottomBarOutAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.seat_selection_bottom_bar_out);//加载
+    public static AuditoriumInfo initAuditoriumInfo(){
+        AuditoriumInfo info = new AuditoriumInfo();
+        info.setCinemaName("测试专用电影城(宁波店)");
+        info.setSession("今天 10-31 18:35(英文3D)");
+        info.setAuditoriumName("七号厅银幕");
+        return info;
     }
 
     /**
      * 代码方式配置座位状态, 为了解释配置方法, 没有采用循环方式填充, 一个座位一个座位配置, 可以解释的比较清楚
      */
-    private SeatTable initSeatTable1(){
+    public static SeatTable initSeatTable1(Context context){
 
         //座位5行5列, 座位宽高40dp, 内间距1座位
-        SeatTable seatTable = new SeatTable(5, 5, MeasureUtils.dp2px(getApplicationContext(), 50), MeasureUtils.dp2px(getApplicationContext(), 50), 1);
+        SeatTable seatTable = new SeatTable(5, 5, MeasureUtils.dp2px(context, 50), MeasureUtils.dp2px(context, 50), 1);
 
         //第一行
 
@@ -144,10 +101,10 @@ public class SeatSelectionActivity extends TAppCompatActivity {
     /**
      * 解析一个超大的影厅的座位数据
      */
-    private SeatTable initSeatTable2(){
+    public static SeatTable initSeatTable2(Context context){
 
         try {
-            SimpleSeatDataParser parser = new SimpleSeatDataParser(20, 40, MeasureUtils.dp2px(getApplicationContext(), 50), MeasureUtils.dp2px(getApplicationContext(), 50), 2);
+            SimpleSeatDataParser parser = new SimpleSeatDataParser(20, 40, MeasureUtils.dp2px(context, 50), MeasureUtils.dp2px(context, 50), 2);
             parser.addRow(0, "1",
                     "N|N|N|N|N|N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|N|N|19|20|21|22|23|24|25|26|27|28|29|N|N|N",
                     "N|N|N|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N|S|S|S|S|S|S|S|S|S|S|S|N|N|N",
@@ -228,10 +185,10 @@ public class SeatSelectionActivity extends TAppCompatActivity {
     /**
      * 解析一个正常规模的影厅座位数据
      */
-    private SeatTable initSeatTable3(){
+    public static SeatTable initSeatTable3(Context context){
 
         try {
-            SimpleSeatDataParser parser = new SimpleSeatDataParser(15, 25, MeasureUtils.dp2px(getApplicationContext(), 50), MeasureUtils.dp2px(getApplicationContext(), 50), 2);
+            SimpleSeatDataParser parser = new SimpleSeatDataParser(15, 25, MeasureUtils.dp2px(context, 50), MeasureUtils.dp2px(context, 50), 2);
             parser.addRow(0, "1",
                     "N|N|N|N|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|N|N",
                     "N|N|N|N|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|S|N|N",
@@ -297,97 +254,5 @@ public class SeatSelectionActivity extends TAppCompatActivity {
         return null;
     }
 
-    private void initView(SeatTable seatTable){
-
-        //配置座位数据
-        seatSelectionView.setData(seatTable);
-        //设置背景色
-        seatSelectionView.setBackground(0xFFF0F0F0);
-        //配置行标记
-        seatSelectionView.setRowBar(new RowBarImpl(MeasureUtils.dp2px(getApplicationContext(), 18), 10, 0x80000000, 0xFFF0F0F0, MeasureUtils.dp2px(getApplicationContext(), 12)));
-        //配置屏幕标记
-        seatSelectionView.setScreenBar(new ScreenBarImpl(0.5f, MeasureUtils.dp2px(getApplicationContext(), 25), 0.05f, 0xFFC0C0C0, 0xFF505050, "七号厅银幕", MeasureUtils.dp2px(getApplicationContext(), 16)));
-        //配置概要图
-        seatSelectionView.setOutlineMap(new OutlineMapImpl(MeasureUtils.getScreenWidth(getApplicationContext()) * 2 / 5, 0x70000000, 0xFFFAFAFA, 0xFFFF5050, 0xFF20FF20, 0xC0F0F020, MeasureUtils.dp2px(getApplicationContext(), 1f)));
-        //配置概要图显示时间
-        seatSelectionView.setOutlineDelay(1000);
-        //配置中线
-        seatSelectionView.setMidLine(new MidLineImpl(MeasureUtils.dp2px(getApplicationContext(), 2), 0xFFC0C0C0, true, new float[]{MeasureUtils.dp2px(getApplicationContext(), 2), MeasureUtils.dp2px(getApplicationContext(), 5)}));
-
-        //配置座位各种状态的图片
-        imagePool = new SeatImagePoolImpl();
-        imagePool.setImage(SeatType.SINGLE, SeatState.AVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_available));
-        imagePool.setImage(SeatType.SINGLE, SeatState.UNAVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_unavailable));
-        imagePool.setImage(SeatType.SINGLE, SeatState.SELECTED, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_selected));
-        imagePool.setImage(SeatType.COUPLE, SeatState.AVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_couple_available));
-        imagePool.setImage(SeatType.COUPLE, SeatState.UNAVAILABLE, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_couple_unavailable));
-        imagePool.setImage(SeatType.COUPLE, SeatState.SELECTED, BitmapUtils.decodeFromResource(getResources(), R.mipmap.seat_couple_selected));
-        seatSelectionView.setImagePool(imagePool);
-
-        //配置座位选择监听器
-        seatSelectionView.setSeatSelectionListener(new SeatSelectionListener() {
-            @Override
-            public boolean onSeatSelect(Seat seat) {
-                int seatNum = 0;
-                switch (seat.getType()){
-                    case SINGLE:
-                        seatNum = 1;
-                        break;
-                    case COUPLE:
-                        seatNum = 2;
-                        break;
-                    default:
-                        break;
-                }
-                if (selectedCount + seatNum > 4){
-                    return false;
-                }
-                selectedCount += seatNum;
-
-                if (selectedCount > 0 && !isBottomBarShown){
-                    isBottomBarShown = true;
-                    bottomBar.startAnimation(bottomBarInAnimation);
-                    bottomBar.setVisibility(View.VISIBLE);
-                }
-
-                return true;
-            }
-
-            @Override
-            public boolean onSeatDeselect(Seat seat) {
-                int seatNum = 0;
-                switch (seat.getType()){
-                    case SINGLE:
-                        seatNum = 1;
-                        break;
-                    case COUPLE:
-                        seatNum = 2;
-                        break;
-                    default:
-                        break;
-                }
-                selectedCount -= seatNum;
-
-                if (selectedCount <= 0 && isBottomBarShown){
-                    isBottomBarShown = false;
-                    bottomBar.startAnimation(bottomBarOutAnimation);
-                    bottomBar.setVisibility(View.GONE);
-                }
-
-                return true;
-            }
-
-            @Override
-            public void onUnavailableSeatSelect(Seat seat) {
-
-            }
-
-            @Override
-            public void onInvalidAreaClick() {
-
-            }
-        });
-
-    }
 
 }

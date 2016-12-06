@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F0F0F0"
-    tools:context="sviolet.seatselectionview.SeatSelectionActivity">
+    tools:context="sviolet.seatselectionview.demo.SeatSelectionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,8 +24,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="3dp"
             android:textSize="18sp"
-            android:textColor="#505050"
-            android:text="测试专用电影城 (宁波店)"/>
+            android:textColor="#505050" />
 
         <TextView
             android:id="@+id/seat_selection_session"
@@ -38,8 +37,7 @@
             android:paddingTop="0dp"
             android:paddingBottom="10dp"
             android:textSize="14sp"
-            android:textColor="#F05050"
-            android:text="今天 10-31 18:35 (英文3D)"/>
+            android:textColor="#F05050" />
 
         <View
             android:layout_width="match_parent"
@@ -71,7 +69,7 @@
                 android:paddingEnd="20dp"
                 android:textSize="16sp"
                 android:textColor="#505050"
-                android:text="可选"/>
+                android:text="@string/seat_selection_prompt_available"/>
 
             <ImageView
                 android:layout_width="20dp"
@@ -88,7 +86,7 @@
                 android:paddingEnd="20dp"
                 android:textSize="16sp"
                 android:textColor="#505050"
-                android:text="已售"/>
+                android:text="@string/seat_selection_prompt_unavailable"/>
 
             <ImageView
                 android:layout_width="20dp"
@@ -105,7 +103,7 @@
                 android:paddingEnd="20dp"
                 android:textSize="16sp"
                 android:textColor="#505050"
-                android:text="已选"/>
+                android:text="@string/seat_selection_prompt_selected"/>
 
         </LinearLayout>
 
@@ -147,7 +145,7 @@
             android:paddingBottom="0dp"
             android:textSize="15sp"
             android:textColor="#505050"
-            android:text="已选座位"/>
+            android:text="@string/seat_selection_bottom_bar_title"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -272,7 +270,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/seat_selection_bottom_bar_button"
-                android:text="确认座位"/>
+                android:text="@string/seat_selection_bottom_bar_submit"/>
 
         </LinearLayout>
 

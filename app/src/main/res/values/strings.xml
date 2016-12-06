@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SeatSelectionView</string>
+
+    <string name="seat_selection_prompt_available">可选</string>
+    <string name="seat_selection_prompt_unavailable">已售</string>
+    <string name="seat_selection_prompt_selected">已选</string>
+    <string name="seat_selection_bottom_bar_title">已选座位</string>
+    <string name="seat_selection_bottom_bar_submit">确认座位</string>
+
 </resources>
