@@ -12,6 +12,7 @@ import java.util.List;
 import sviolet.seatselectionview.R;
 import sviolet.seatselectionview.view.Seat;
 import sviolet.seatselectionview.view.SeatSelectionView;
+import sviolet.seatselectionview.view.SeatState;
 import sviolet.seatselectionview.view.SeatType;
 
 /**
@@ -145,6 +146,44 @@ public class SelectedSeats {
         return seats.size();
     }
 
+
+    /**
+     * 使得某个座位被选中
+     */
+    public void selectSeat(Seat seat){
+        if (seat == null || seat.getState() == SeatState.UNAVAILABLE){
+            return;
+        }
+        Seat host = null;
+        if (seat.getType() == SeatType.MULTI_SEAT_PLACEHOLDER){
+            host = seat.getHost();
+        }
+        if (host == null){
+            host = seat;
+        }
+        host.setState(SeatState.SELECTED);
+        seatSelectionView.postInvalidate();
+    }
+
+    /**
+     * 使得某个座位取消选中
+     */
+    public void deselectSeat(Seat seat){
+        if (seat == null || seat.getState() == SeatState.UNAVAILABLE){
+            return;
+        }
+        Seat host = null;
+        if (seat.getType() == SeatType.MULTI_SEAT_PLACEHOLDER){
+            host = seat.getHost();
+        }
+        if (host == null){
+            host = seat;
+        }
+        host.setState(SeatState.AVAILABLE);
+        seatSelectionView.postInvalidate();
+    }
+
+
     public void refreshBottomBarSelectedItems(){
         selectedItemContainer.removeAllViews();
         if (seats.size() > maxSeatNum){
@@ -162,7 +201,7 @@ public class SelectedSeats {
         public void onClick(View v) {
             Seat seat = getSeat((int) v.getTag());
             removeSeat(seat);
-            seatSelectionView.deselectSeat(seat);
+            deselectSeat(seat);
             refreshBottomBarSelectedItems();
         }
     };
