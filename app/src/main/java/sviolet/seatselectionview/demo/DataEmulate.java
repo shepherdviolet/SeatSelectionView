@@ -23,6 +23,7 @@ public class DataEmulate {
         info.setSession("今天 10-31 18:35(英文3D)");
         info.setAuditoriumName("七号厅银幕");
         info.setMaxSeatNum(4);
+        info.setPrice(25);
         return info;
     }
 

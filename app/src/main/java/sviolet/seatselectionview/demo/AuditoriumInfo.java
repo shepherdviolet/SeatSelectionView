@@ -9,7 +9,8 @@ public class AuditoriumInfo {
     private String cinemaName;//影院名
     private String session;//场次
     private String auditoriumName;//影厅名
-    private int maxSeatNum;
+    private int maxSeatNum;//最大可选座位数
+    private float price;//票价
 
     public String getCinemaName() {
         return cinemaName;
@@ -41,5 +42,13 @@ public class AuditoriumInfo {
 
     public void setMaxSeatNum(int maxSeatNum) {
         this.maxSeatNum = maxSeatNum;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
 }

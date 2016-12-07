@@ -23,8 +23,11 @@ import sviolet.seatselectionview.view.SelectedSeats;
  */
 public class MySelectedSeats extends SelectedSeats {
 
+    private AuditoriumInfo auditoriumInfo;
     private View bottomBar;
     private LinearLayout selectedItemContainer;
+    private TextView totalPriceTextView;
+    private TextView priceDetailTextView;
     private List<View> selectedItemViews;
     private List<TextView> selectedItemTextViews;
 
@@ -33,8 +36,10 @@ public class MySelectedSeats extends SelectedSeats {
 
     private boolean isBottomBarShown = false;
 
-    public MySelectedSeats(SeatSelectionView seatSelectionView, int maxSeatNum, Context context, View bottomBar, LinearLayout selectedItemContainer) {
-        super(seatSelectionView, maxSeatNum);
+    public MySelectedSeats(SeatSelectionView seatSelectionView, AuditoriumInfo auditoriumInfo,
+                           Context context, View bottomBar, LinearLayout selectedItemContainer, TextView totalPriceTextView, TextView priceDetailTextView) {
+
+        super(seatSelectionView, auditoriumInfo.getMaxSeatNum());
 
         if (bottomBar == null){
             throw new RuntimeException("[MySelectedSeats]bottomBar is null");
@@ -42,11 +47,20 @@ public class MySelectedSeats extends SelectedSeats {
         if (selectedItemContainer == null){
             throw new RuntimeException("[MySelectedSeats]selectedItemContainer is null");
         }
+        if (totalPriceTextView == null){
+            throw new RuntimeException("[MySelectedSeats]totalPriceTextView is null");
+        }
+        if (priceDetailTextView == null){
+            throw new RuntimeException("[MySelectedSeats]priceDetailTextView is null");
+        }
 
+        this.auditoriumInfo = auditoriumInfo;
         this.bottomBar = bottomBar;
         this.selectedItemContainer = selectedItemContainer;
-        this.selectedItemViews = new ArrayList<>(maxSeatNum);
-        this.selectedItemTextViews = new ArrayList<>(maxSeatNum);
+        this.totalPriceTextView = totalPriceTextView;
+        this.priceDetailTextView = priceDetailTextView;
+        this.selectedItemViews = new ArrayList<>(auditoriumInfo.getMaxSeatNum());
+        this.selectedItemTextViews = new ArrayList<>(auditoriumInfo.getMaxSeatNum());
 
         //初始化动画
         bottomBarInAnimation = AnimationUtils.loadAnimation(context, R.anim.seat_selection_bottom_bar_in);//加载
@@ -57,7 +71,7 @@ public class MySelectedSeats extends SelectedSeats {
 
         //实例化底部栏的选中项View
         LayoutInflater inflater = LayoutInflater.from(context);
-        for (int i = 0 ; i < maxSeatNum ; i++){
+        for (int i = 0 ; i < auditoriumInfo.getMaxSeatNum() ; i++){
             View itemView = inflater.inflate(R.layout.seat_selection_bottom_bar_item, null);
             TextView textView = (TextView) itemView.findViewById(R.id.seat_selection_bottom_bar_item);
             itemView.setTag(i);
@@ -72,7 +86,7 @@ public class MySelectedSeats extends SelectedSeats {
         boolean result = super.onSelect(seat);
         //刷新数据
         if (result) {
-            refreshBottomBarSelectedItems();
+            refreshBottomBar();
         }
         return result;
     }
@@ -81,8 +95,13 @@ public class MySelectedSeats extends SelectedSeats {
     public boolean onDeselect(Seat seat) {
         boolean result = super.onDeselect(seat);
         //刷新数据
-        refreshBottomBarSelectedItems();
+        refreshBottomBar();
         return result;
+    }
+
+    public void refreshBottomBar(){
+        refreshBottomBarSelectedItems();
+        refreshBottomBarPrice();
     }
 
     public void refreshBottomBarSelectedItems(){
@@ -111,6 +130,13 @@ public class MySelectedSeats extends SelectedSeats {
         }
     }
 
+    public void refreshBottomBarPrice(){
+        int seatNum = getSeatNum();
+        float totalPrice = seatNum * auditoriumInfo.getPrice();
+        totalPriceTextView.setText(totalPrice + "元");
+        priceDetailTextView.setText(auditoriumInfo.getPrice() + "元 X " + seatNum);
+    }
+
     private final View.OnClickListener onSelectedItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -120,7 +146,7 @@ public class MySelectedSeats extends SelectedSeats {
             //更新座位状态为未选中
             deselectSeat(seat);
             //刷新底部栏
-            refreshBottomBarSelectedItems();
+            refreshBottomBar();
         }
     };
 

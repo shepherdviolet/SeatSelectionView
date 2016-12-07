@@ -34,6 +34,10 @@ public class SeatSelectionActivity extends TAppCompatActivity {
     private TextView sessionView;
     @ResourceId(R.id.seat_selection_bottom_bar_item_container)
     private LinearLayout selectedItemContainer;
+    @ResourceId(R.id.seat_selection_bottom_bar_total_price)
+    private TextView totalPriceTextView;
+    @ResourceId(R.id.seat_selection_bottom_bar_price_details)
+    private TextView priceDetailTextView;
 
     private SeatImagePoolImpl imagePool;//图片池
 
@@ -66,7 +70,14 @@ public class SeatSelectionActivity extends TAppCompatActivity {
     }
 
     private void initView(){
-        selectedSeats = new MySelectedSeats(seatSelectionView, auditoriumInfo.getMaxSeatNum(), getApplicationContext(), bottomBar, selectedItemContainer);
+        selectedSeats = new MySelectedSeats(
+                seatSelectionView,
+                auditoriumInfo,
+                getApplicationContext(),
+                bottomBar,
+                selectedItemContainer,
+                totalPriceTextView,
+                priceDetailTextView);
 
         cinemaNameView.setText(auditoriumInfo.getCinemaName());
         sessionView.setText(auditoriumInfo.getSession());
