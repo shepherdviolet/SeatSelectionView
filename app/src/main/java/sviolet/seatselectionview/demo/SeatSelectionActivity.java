@@ -46,9 +46,7 @@ public class SeatSelectionActivity extends TAppCompatActivity {
     private SeatTable seatTable;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    protected void onInitViews(Bundle savedInstanceState) {
         initData();
         initView();
         initSeatSelectionView(seatTable);
@@ -56,8 +54,7 @@ public class SeatSelectionActivity extends TAppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void afterDestroy() {
         //销毁图片池(内含Bitmap)
         imagePool.destroy();
     }
