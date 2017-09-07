@@ -17,7 +17,7 @@ import sviolet.turquoise.utilx.tlogger.TLogger;
  */
 public class OutlineMapImpl implements OutlineMap {
 
-    private TLogger logger = TLogger.get(this, SeatSelectionView.class.getSimpleName());
+    private TLogger logger = TLogger.get(this);
 
     private float outlineWidth;
     private int backgroundColor;

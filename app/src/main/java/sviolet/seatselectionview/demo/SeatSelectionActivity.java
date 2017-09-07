@@ -18,7 +18,7 @@ import sviolet.seatselectionview.view.SeatTable;
 import sviolet.seatselectionview.view.SeatType;
 import sviolet.turquoise.enhance.app.TAppCompatActivity;
 import sviolet.turquoise.enhance.app.annotation.inject.ResourceId;
-import sviolet.turquoise.util.common.BitmapUtils;
+import sviolet.turquoise.util.bitmap.BitmapUtils;
 import sviolet.turquoise.util.droid.MeasureUtils;
 
 @ResourceId(R.layout.seat_selection)

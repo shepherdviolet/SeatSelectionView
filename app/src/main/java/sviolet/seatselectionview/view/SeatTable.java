@@ -17,7 +17,7 @@ import sviolet.turquoise.utilx.tlogger.TLogger;
 
 public class SeatTable {
 
-    private TLogger logger = TLogger.get(this, SeatSelectionView.class.getSimpleName());
+    private TLogger logger = TLogger.get(this);
 
     private Seat[][] seats;
     private String[] rowIds;

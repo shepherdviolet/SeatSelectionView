@@ -31,7 +31,7 @@ import sviolet.turquoise.utilx.tlogger.TLogger;
 
 public class SeatSelectionView extends View implements ViewCommonUtils.InitListener {
 
-    private TLogger logger = TLogger.get(this, SeatSelectionView.class.getSimpleName());
+    private TLogger logger = TLogger.get(this);
 
     //触摸控制器
     private ViewGestureControllerImpl viewGestureController;
